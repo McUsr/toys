@@ -1,0 +1,8 @@
+#/bin/ksh93
+test_buildmode1
+test_buildmode2
+test_buildmode3
+test_buildmode4
+test_buildmode5
+test_buildmode6
+test_buildmode7

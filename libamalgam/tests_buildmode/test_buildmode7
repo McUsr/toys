@@ -1,0 +1,8 @@
+#!/bin/ksh93
+echo $0: This test should return LA__REL .
+cc -g3 -DLA_REL -I$i test_buildmode.c trampoline2.c -lamalgam -o test_buildmode
+if [ $? -eq 0 ] ; then 
+  test_buildmode
+else
+  echo fails to compile/link
+fi
