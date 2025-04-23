@@ -61,18 +61,19 @@ specified compile-time (
 Macro definition to instigate parsing of build mode from within client
 .br program.
 .IP
-.RI #define " "  LA_PARSE_BUILDMODE
+.RI #define " "  LA_BUILDMODE_GET
 .br
 You need to
-.RI #define " "  LA_PARSE_BUILDMODE
-in the first c \- file on
+.RI #define " "  LA_BUILDMODE_GET
+in some f c \- file that
 .br
-the
-commandline, before the include file to parse the current
+is 
+compiled with the relevant feature request macro on the
 .br
-buildmode.
+.BI gcc
+command line and linked into your program in the link phase.
 .PP
-Feature request macros that should be set on
+Feature request macros that can be set on the
 .BI gcc
 commandline:
 .IP
@@ -82,7 +83,7 @@ sets build mode to release.
 .BI LA_DEV
 sets build mode to dev, which is the normal behavior
 .br
-you normally expect during development.
+you normally expect during development. (Default value.)
 .IP
 .BI LA_DBG
 sets build mode to debug, which automatically lanuches
@@ -92,7 +93,7 @@ when a run-time error occurs or an assertion breaks.
 .PP
 Datatype for build mode:
 .IP
-.RI typedef " " enum " " { " " LA__REL=0 ", " LA__DEV=1 ", " LA__DBG=2 " " } " " LA_BuildMode "" ;
+.RI typedef " " enum " " { " " LA__REL=0 "" ", " "" LA__DEV=1 "" ", " "" LA__DBG=2 " " } " " LA_BuildMode "" ;
 .br
 These are the values that
 .BI LA_BuildMode()
@@ -113,38 +114,33 @@ value.
 .SH ERRORS
 You will get a linker error link time if you have forgotten to 
 .br
-.RI #define " "  LA_PARSE_BUILDMODE
+.RI #define " "  LA_BUILDMODE_GET
 before
 .BI #include\ <build_mode.h>
 .br
 or
 .BI #include\ <amalgam.h>
-in the
-.BR first " " C " " file
-that is linked into
+in some c  file that is compiled with the
 .br
-your library - client program.
+relevant feature request macro and linked into
+your  program.
 .SH NOTES
 .PP
 In order for to make the functionality work you need to
 .br
-.RI #define " "  LA_PARSE_BUILDMODE
+.RI #define " "  LA_BUILDMODE_GET
 before you 
-.br
 .BI #include\ <build_mode.h>
 or
+.br
 .BI #include\ <amalgam.h>
-in
-your
-.BI main.c.
+in the c \- file you use to parse the feature
 .br
-.BI main.c
-should be the first file of your project you
+request macro.
 .br
-compile and link 
-to the finished product on the
-.BI gcc
-command line.
+This file needs to be compiled with the feature request macro and 
+.br
+linked with the finished program.
 .PP
 You will also need to link your project with 
 .BI \-lamalgam.
