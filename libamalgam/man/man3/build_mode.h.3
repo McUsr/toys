@@ -1,0 +1,153 @@
+.\" see groff_man for syntax.
+.TH BUILD_MODE.H 3 "2025" "libamalgam" "Library Functions Manual"
+.SH NAME
+build_mode.h \-\- Detection of current build mode with respect to
+.br
+.BI build\-mode
+specified on the command line during build.
+.br
+It is used by the 
+.BI error
+.BI handling
+.BI strategies
+in
+.BI libmamalgam.
+.SH LIBRARY
+Development C library
+.RI  ( libamalgam ", " \-lamalgam )
+.SH SYNOPSIS
+.BI #include\ <build_mode.h>
+.br
+or
+.br
+.BI #include\ <amalgam.h>
+.SH DESCRIPTION
+.PP
+.BI build_mode.h
+lets you configure the build mode of your program compile
+.br
+time which your program can probe through the function
+.BI LA_build_mode()
+.br
+in
+.BI libamalgam.
+.PP
+You specify one of the feature request macros:
+.BI LA_DBG,
+.BI LA_DEV,
+or
+.br
+.BI LA_REL
+on the 
+.BR gcc
+command
+line, which configures the build mode of
+.br
+the program.
+.PP
+The default
+.BI build
+.BI type
+is
+.BI LA_DEV
+if no feature request macro is
+.br
+specified compile-time (
+.BR ex:
+.BI \-DLA_REL
+).
+.SH DETAILS
+.PP
+Macro definition to instigate parsing of build mode from within client
+.br program.
+.IP
+.RI #define " "  LA_PARSE_BUILDMODE
+.br
+You need to
+.RI #define " "  LA_PARSE_BUILDMODE
+in the first c \- file on
+.br
+the
+commandline, before the include file to parse the current
+.br
+buildmode.
+.PP
+Feature request macros that should be set on
+.BI gcc
+commandline:
+.IP
+.BI LA_REL
+sets build mode to release.
+.IP
+.BI LA_DEV
+sets build mode to dev, which is the normal behavior
+.br
+you normally expect during development.
+.IP
+.BI LA_DBG
+sets build mode to debug, which automatically lanuches
+.br
+.BI Gdb
+when a run-time error occurs or an assertion breaks.
+.PP
+Datatype for build mode:
+.IP
+.RI typedef " " enum " " { " " LA__REL=0 ", " LA__DEV=1 ", " LA__DBG=2 " " } " " LA_BuildMode "" ;
+.br
+These are the values that
+.BI LA_BuildMode()
+returns to identify
+.br
+the
+build mode to the client program.
+.PP
+The function that retuns the current build mode runtime:
+.IP
+.RI LA_BuildMode " " build_mode(void) "" ;
+.br
+Returns the current compiled buildmode to the client program
+.br
+run time as a 
+.IB LA_BuildMode
+value.
+.SH ERRORS
+You will get a linker error link time if you have forgotten to 
+.br
+.RI #define " "  LA_PARSE_BUILDMODE
+before
+.BI #include\ <build_mode.h>
+.br
+or
+.BI #include\ <amalgam.h>
+in the
+.BR first " " C " " file
+that is linked into
+.br
+your library - client program.
+.SH NOTES
+.PP
+In order for to make the functionality work you need to
+.br
+.RI #define " "  LA_PARSE_BUILDMODE
+before you 
+.br
+.BI #include\ <build_mode.h>
+or
+.BI #include\ <amalgam.h>
+in
+your
+.BI main.c.
+.br
+.BI main.c
+should be the first file of your project you
+.br
+compile and link 
+to the finished product on the
+.BI gcc
+command line.
+.PP
+You will also need to link your project with 
+.BI \-lamalgam.
+.SH SEE ALSO
+amalgam(3)
+.\" vim: nospell
