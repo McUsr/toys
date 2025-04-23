@@ -1,9 +1,9 @@
 .\" see groff_man for syntax.
-.TH BUILD_MODE.H 3 "2025" "libamalgam" "Library Functions Manual"
+.TH BUILDMODE.H 3 "2025" "libamalgam" "Library Functions Manual"
 .SH NAME
-build_mode.h \-\- Detection of current build mode with respect to
+buildmode.h \-\- Detection of current build mode with respect to
 .br
-.BI build\-mode
+.BI buildmode
 specified on the command line during build.
 .br
 It is used by the 
@@ -16,18 +16,18 @@ in
 Development C library
 .RI  ( libamalgam ", " \-lamalgam )
 .SH SYNOPSIS
-.BI #include\ <build_mode.h>
+.BI #include\ <buildmode.h>
 .br
 or
 .br
 .BI #include\ <amalgam.h>
 .SH DESCRIPTION
 .PP
-.BI build_mode.h
+.BI buildmode.h
 lets you configure the build mode of your program compile
 .br
 time which your program can probe through the function
-.BI LA_build_mode()
+.BI LA_buildmode()
 .br
 in
 .BI libamalgam.
@@ -104,7 +104,7 @@ build mode to the client program.
 .PP
 The function that retuns the current build mode runtime:
 .IP
-.RI LA_BuildMode " " build_mode(void) "" ;
+.RI LA_BuildMode " " buildmode(void) "" ;
 .br
 Returns the current compiled buildmode to the client program
 .br
@@ -116,7 +116,7 @@ You will get a linker error link time if you have forgotten to
 .br
 .RI #define " "  LA_BUILDMODE_GET
 before
-.BI #include\ <build_mode.h>
+.BI #include\ <buildmode.h>
 .br
 or
 .BI #include\ <amalgam.h>
@@ -130,7 +130,7 @@ In order for to make the functionality work you need to
 .br
 .RI #define " "  LA_BUILDMODE_GET
 before you 
-.BI #include\ <build_mode.h>
+.BI #include\ <buildmode.h>
 or
 .br
 .BI #include\ <amalgam.h>
