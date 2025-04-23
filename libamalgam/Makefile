@@ -95,7 +95,8 @@ $(SRC_DIR)/%.c: $(INCLUDE_DIR)/%.h
 all: $(LIBRARY)
 
 $(LIBRARY): $(LT_OBJECTS) 
-	libtool --mode=link gcc $(CPPFLAGS) $(CFLAGS) -o $@ $(LT_OBJECTS) -rpath $(RPATH) -version-info $(CUR_VER) -Wl,-e,mu_main
+	libtool --mode=link gcc $(CPPFLAGS) $(CFLAGS) -o $@ $(LT_OBJECTS) -rpath $(RPATH) -version-info $(CUR_VER)
+#	libtool --mode=link gcc $(CPPFLAGS) $(CFLAGS) -o $@ $(LT_OBJECTS) -rpath $(RPATH) -version-info $(CUR_VER) -Wl,-e,mu_main
 # I pass arguments here to specificy the entry point. I may need to specify -Wc or -Xcompiler to pass them through
 
 # I pass in the parameters here for the libtool to send into the variable.
@@ -193,6 +194,7 @@ clean:
 
 # This is the first command to be executed after the makefile is copied into a new directory.
 setup:
+	mkdir -p doc
 	mkdir -p src
 	mkdir -p build/test_depends
 	mkdir -p build/test_objs
