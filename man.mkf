@@ -1,0 +1,55 @@
+.EXTRA_PREREQS = Makefile
+# rules for paths and manpages.
+# https://www.cyberciti.biz/faq/linux-unix-creating-a-manpage/
+# Convention, make any symbolic link to the page in question 
+# IN the directory TO the gz. file.
+# Other handy references for man
+# man 1 man
+# man 7 man-pages
+# man 7 groff_man
+PRJ_MANPAGES_ROOT := ./man
+SRC_MAN1 = $(PRJ_MANPAGES_ROOT)/man1
+SRC_MAN3 = $(PRJ_MANPAGES_ROOT)/man3
+SRC_MAN7 = $(PRJ_MANPAGES_ROOT)/man7
+
+DST_MANPAGES_ROOT := $(HOME)/.local/man
+
+DST_MAN1 = $(DST_MANPAGES_ROOT)/man1/
+DST_MAN3 = $(DST_MANPAGES_ROOT)/man3/
+# Overview/background pages
+DST_MAN7 = $(DST_MANPAGES_ROOT)/man7/
+
+# DST_MANDIRS = $(DST_MANPAGES_ROOT) $(DST_MAN1) $(DST_MAN3) $(DST_MAN7)
+DST_MANDIRS = $(DST_MANPAGES_ROOT)  $(DST_MAN3) 
+# needs to be in a rule. just keep the directories you need.
+
+SRC_MAN3FILES = $(wildcard $(SRC_MAN3)/*.3)
+PROD_MAN3FILES := $(SRC_MAN3FILES:$(SRC_MAN3)/%.3=$(SRC_MAN3)/%.3.gz)
+
+# $(SRC_MAN1)/%.1.gz : $(SRC_MAN1)/%.1 
+# 	gz -k $<
+
+$(SRC_MAN3)/%.3.gz : $(SRC_MAN3)/%.3 
+	gzip -k $<
+
+# $(SRC_MAN7)/%.7.gz : $(SRC_MAN1)/%.7 
+# 	gz -k $<
+
+all: $(DST_MANDIRS) $(PROD_MAN3FILES)
+
+install: $(DST_MANDIRS) $(PROD_MAN3FILES)
+	 # cp -P $(PROD_MAN1FILES) $(DST_MAN1)
+	 cp -P $(PROD_MAN3FILES) $(DST_MAN3)
+	 # cp -P $(PROD_MAN7FILES) $(DST_MAN7)
+
+$(DST_MANPAGES_ROOT):
+	mkdir -p $(DST_MANPAGES_ROOT)
+   
+$(DST_MAN1):
+	mkdir -p $(DST_MAN1)
+   
+$(DST_MAN3):
+	mkdir -p $(DST_MAN3)
+
+$(DST_MAN7):
+	mkdir -p $(DST_MAN7)
