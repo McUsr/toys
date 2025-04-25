@@ -110,8 +110,8 @@ licence.lo: src/licence.c | $(PATHB)ld_loader.txt
 
 $(PATHB)ld_loader.txt: $(PATHB)ldloadprobe
 
-$(PATHB)ldloadprobe: env_config/ldloadprobe
-	gcc -o $(PATHB)ldloadprobe env_config/ldloadprobe.c
+$(PATHB)ldloadprobe: env_config/ldloadprobe.c
+	gcc -o $@ env_config/ldloadprobe.c
 	objcopy --dump-section .interp=/dev/stdout $(PATHB)ldloadprobe >$(PATHB)ld_loader.txt 
 
 install:
