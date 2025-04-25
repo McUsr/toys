@@ -12,7 +12,7 @@ CC = gcc
 # libtool
 # ---------------------------------------------------------
 # !Todo: ifequ origin.
-CUR_VER=0:0:0
+CUR_VER=0:1:0
 # (current:revision:age)
 
 # 1. Start with version information of ‘0:0:0’ for each libtool library.
@@ -95,14 +95,11 @@ $(SRC_DIR)/%.c: $(INCLUDE_DIR)/%.h
 all: $(LIBRARY)
 
 $(LIBRARY): $(LT_OBJECTS) 
-	libtool --mode=link gcc $(CPPFLAGS) $(CFLAGS) -o $@ $(LT_OBJECTS) -rpath $(RPATH) -version-info $(CUR_VER)
-#	libtool --mode=link gcc $(CPPFLAGS) $(CFLAGS) -o $@ $(LT_OBJECTS) -rpath $(RPATH) -version-info $(CUR_VER) -Wl,-e,mu_main
+	libtool --mode=link gcc $(CPPFLAGS) $(CFLAGS) -o $@ $(LT_OBJECTS) -rpath $(RPATH) -version-info $(CUR_VER) -Wl,-e,mu_main
 # I pass arguments here to specificy the entry point. I may need to specify -Wc or -Xcompiler to pass them through
 
 # I pass in the parameters here for the libtool to send into the variable.
-#
 # I have a special rule for thatt object..
-#
 # I passs in the address of the loader into that file on a special rules.
 
 licence.lo: src/licence.c | $(PATHB)ld_loader.txt 
