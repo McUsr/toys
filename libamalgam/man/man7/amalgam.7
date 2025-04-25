@@ -1,0 +1,109 @@
+.\" see groff_man for syntax.
+.TH Amalgam 7 "2025" "Amalgam Manual pages" "Miscellaneous Information Manual" 
+.SH NAME
+amalgam \- Overview of the amalgam library on linux/*nix.
+.SH DESCRIPTION
+.PP
+\fBAmalgam\fP is a library that provides code and a simple template for
+.br
+making it easy to configure different build modes for your program
+.br
+and provide error handling strategies that adjusts to each of the
+.br
+build modes so that you can rebuild your application for a
+.br
+different build mode in a snap, having the functionality you need
+.br
+up front rather than having to retrofit error handling code
+.br
+afterwards.
+.PP
+\fBAmalgam\fP provides a higher granularity in error messages that we can
+.br
+get out the constant, (like \fBEIO\fP so that we can look up the error
+.br 
+code on the man page for our system (they may vary among *nixes) and
+.br
+maybe get a pointer at what has gone wrong, and more importantly
+.br
+why,
+.BR "to ease debugging".
+.PP
+Using one standard error message in \fBRelease\fP mode for runtime errors
+.br
+isn't only more user\-friendly , but also makes your program at least
+.br
+a little bit more difficult to exploit.
+.PP
+Launching \fBGdb\fP directly upon a run\-time error in \fBDebug\fP mode letting
+.br
+you inspect variables and the call stack directly is a time saver
+.br
+during debugging.
+.PP
+This library enables you to keep your assertions active in release
+.br
+builds.
+.TP
+"Error handling strategies that \fBAmalgam\fP supports"
+\fBAmalgam\fP supports several ways to check for errors, namely by
+.br
+.BI assertions "" ,
+.BI "happy path" "" ,
+and a 
+.BI "fail fast"
+strategy.
+.IP
+In addition it comes with an \fBException\fP module letting you create
+.br
+your own exceptions, but this is totally agnostic to build modes,
+.br
+so here you will need to implement everything build\-type wise
+.br
+on your own.
+.TP
+\fBAssertions\fP are like they always have been in "C", but now they will
+.br
+launch \fBgdb\fP if an assertion breaks in a \fBDebug\fP build, and
+.br
+print a user\-friendly message in \fBRelease\fP build, (that is
+.br
+configurable) but
+leaving everything as the output from a
+.br
+regular assert in a \fBDev\fP build.
+.TP 
+\fBHappy Path\fP standardizes the way of checking function return codes for
+.br
+errors and \fBerrno\fP after function/system calls, and provides a
+.br
+nice call stack run\-time in \fBDev\fP build.
+.TP 
+\fBFail Fast\fP are wrappers around regular system calls like \fImalloc(3)\fP, and 
+.br
+\fIprintf(3)\fP functions that prints an error message to the console
+.br
+and dies, if a run\-time error happens, providing the same level
+.br
+of information as \fIperror(3)\fP but also prints the string constant
+.br
+for the error code if the format
+string ends with a ":".
+.SH SEE ALSO
+.BI amalgam.h(3)
+.SH AUTHORS
+Mark J.Rochkind Advanced Unix Programming 2nd edition.
+.br
+David R. Hanson "C Interfaces and Applications"
+.SH COPYRIGHT
+Mark J.Rochkind April 2004-2025
+.br
+David R. Hanson 1996-2025
+.br
+Brian W. Kernighan and Robert Pike 1999-2025
+.br
+Andrew G. Morgan <morgan@kernel.org> 2021-205
+.br
+Tommy Bollman 2025 Mit License.
+
+.\" vim: nospell

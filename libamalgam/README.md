@@ -38,19 +38,20 @@ library.
  * "Assert" : more or less like regular assertions, but acts differently for
  the different build-modes
 
- * "Runtime" : standardized runtime checking of linux system calls and libc
+ * "Happypath" : standardized runtime checking of linux system calls and libc
  functions.
 
 ### Notes
 
 libamalgam is made to be as portable as possible, but as it stands it is only
-possible to compile link it as an ELF executable. This can be remedied by
-removing the mechanism for making the library executable and just add a call 
-to the libraries `licence()` function, since the idea behind the executable
-mechanism is to provide versioning and licence information.
+possible to compile link it as an ELF executable, and it relies on the `proc`
+filesystem. This can be remedied by removing the mechanism for making the
+library executable and just add a call to the libraries `licence()` function,
+since the idea behind the executable mechanism is to provide versioning and
+licence information.
 
 
-  Last updated:25-04-24 11:59
+  Last updated:25-04-25 10:56
 
 <!--
 vim: foldlevel=99 nospell
