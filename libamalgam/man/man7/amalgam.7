@@ -44,8 +44,15 @@ during debugging.
 This library enables you to keep your assertions active in release
 .br
 builds.
+.PP
+In addition, it provides a public interface for parsing buildmodes,
+.br
+\fIabuildmode.h(3)\fP and for exceptions: \fIaexception.h(3)\fP,
+which you can
+.br
+use to extend your own code with.
 .TP
-"Error handling strategies that \fBAmalgam\fP supports"
+Error handling strategies that \fBAmalgam\fP supports
 \fBAmalgam\fP supports several ways to check for errors, namely by
 .br
 .BI assertions "" ,
