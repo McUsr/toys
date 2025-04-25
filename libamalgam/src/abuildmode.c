@@ -31,7 +31,7 @@ SOFTWARE.
 #define LA_CONF_SENTINEL
 /* So that we not inadvertently compiles the run time func in the
  * library! */
-#include "buildmode.h"
+#include "abuildmode.h"
 #undef LA_CONF_SENTINEL
 
 #include <stdio.h>
