@@ -1,41 +1,113 @@
 .\" see groff_man for syntax.
 .TH Amalgam 7 "2025" "Amalgam Manual pages" "Miscellaneous Information Manual" 
 .SH NAME
-amalgam \- Overview of the amalgam library on linux/*nix.
+amalgam \- Configurable error strategies with respect to build mode.
 .SH DESCRIPTION
 .PP
-\fBAmalgam\fP is a library that provides code and a simple template for
+\fBAmalgam\fP is a library that provides error handling strategies and
 .br
-making it easy to configure different build modes for your program
+parsing of compile time feature request macros to define the
 .br
-and provide error handling strategies that adjusts to each of the
+current
+build mode, to make it easy to configure the behavior of
 .br
-build modes so that you can rebuild your application for a
+the
+error
+handling strategies
+behavior in a uniform fashion with
 .br
-different build mode in a snap, having the functionality you need
-.br
-up front rather than having to retrofit error handling code
-.br
-afterwards.
+respect to build mode. 
 .PP
-\fBAmalgam\fP provides a higher granularity in error messages that we can
+The motivation behind, is to have error handling strategies that
 .br
-get out the constant, (like \fBEIO\fP so that we can look up the error
-.br 
-code on the man page for our system (they may vary among *nixes) and
+behaves according to the current build mode, so that we can define
 .br
-maybe get a pointer at what has gone wrong, and more importantly
+the build mode to get the wanted behaviour of the error handling
 .br
-why,
-.BR "to ease debugging".
+strategies.
+.SS "Error handling strategies that \fBAmalgam\fP supports"
 .PP
-Using one standard error message in \fBRelease\fP mode for runtime errors
+\fBAmalgam\fP supports several ways to check for errors, namely by
 .br
-isn't only more user\-friendly , but also makes your program at least
-.br
-a little bit more difficult to exploit.
+.BI assertions "" ,
+.BI "happy path" "" ,
+and a 
+.BI "fail fast"
+strategy.
 .PP
-Launching \fBGdb\fP directly upon a run\-time error in \fBDebug\fP mode letting
+In addition it comes with an \fBException\fP module letting you create
+.br
+your own exceptions, but this is totally agnostic to build modes,
+.br
+so here you will need to implement everything build\-type wise
+.br
+on your own.
+.TP
+\fIaassert.h(3)\fP \-\-\ assertions like normal assertions, in \fBLA_DEV\fP, but
+.br
+now
+they will
+launch \fBgdb\fP if an assertion fails in a \fBLA_DBG\fP
+.br
+build, and
+print a user\-friendly message in a \fBLA_REL\fP build.
+.TP 
+\fIahappypath.h(3)\fP standardizes the way of checking function return
+.br
+codes for errors and \fBerrno\fP after function/system calls, and
+.br
+provides a
+nice call stack run\-time in \fBLA_DEV\fP build.
+.TP 
+\fIafailfast.h(3)\fP are wrappers around regular system calls like
+.br
+\fImalloc(3)\fP, and \fIprintf(3)\fP functions that prints an error
+.br
+message to the console and dies, if a run\-time error happens,
+.br
+providing the same level
+of information as \fIperror(3)\fP but can also
+.br
+be
+utilized to return the \fBERROR\fP constant as specified on the man\-
+.br
+page for the library or system call. (The constant can vary from
+.br
+platform to platform).
+.SS "The different build modes"
+.TP
+\fBLA_DBG\fP \-\- Debug mode used for inspecing runtime bugs in Gdb. 
+.TP
+\fBLA_DEV\fP \-\- Development mode for mimicking standard behavor runtime.
+.TP
+\fBLA_REL\fP \-\- Release mode gives a user friendly  message to end users.
+.SS "About error messages"
+.PP
+\fBAmalgam\fP also provide more detail in error messages than
+.BI perror(3)
+.br
+because we get  the constant for the error number that is referred
+.br
+to in the manual page for the function, like \fBEIO\fP is listed as an
+.br
+error code in the manual page for 
+.BI read(2)
+so that we
+can simply
+.br
+read the explanation for the error code in the manual page.
+.PP
+Knowing possible reasons for an error can help during debugging.
+.PP
+Using one standard error message in \fBLA_REL\fP mode for runtime errors
+.br
+isn't only more user\-friendly, but also makes your program at least
+.br
+a little bit more difficult to exploit, hiding cause, filename and
+.br
+line\-number.
+.PP
+Launching \fBGdb\fP directly upon a run\-time error in \fBLA_DBG\fP mode letting
 .br
 you inspect variables and the call stack directly is a time saver
 .br
@@ -45,63 +117,24 @@ This library enables you to keep your assertions active in release
 .br
 builds.
 .PP
-In addition, it provides a public interface for parsing buildmodes,
+In addition, it provides a public interface for parsing buildmodes:
 .br
-\fIabuildmode.h(3)\fP and for exceptions: \fIaexception.h(3)\fP,
-which you can
+\fIabuildmode.h(3)\fP, configuring a release error message:
 .br
-use to extend your own code with.
-.TP
-Error handling strategies that \fBAmalgam\fP supports
-\fBAmalgam\fP supports several ways to check for errors, namely by
+\fIareleasemsg.h(3)\fP,
+and for implementing your own exceptions:
 .br
-.BI assertions "" ,
-.BI "happy path" "" ,
-and a 
-.BI "fail fast"
-strategy.
-.IP
-In addition it comes with an \fBException\fP module letting you create
-.br
-your own exceptions, but this is totally agnostic to build modes,
-.br
-so here you will need to implement everything build\-type wise
-.br
-on your own.
-.TP
-\fBAssertions\fP are like they always have been in "C", but now they will
-.br
-launch \fBgdb\fP if an assertion breaks in a \fBDebug\fP build, and
-.br
-print a user\-friendly message in \fBRelease\fP build, (that is
-.br
-configurable) but
-leaving everything as the output from a
-.br
-regular assert in a \fBDev\fP build.
-.TP 
-\fBHappy Path\fP standardizes the way of checking function return codes for
-.br
-errors and \fBerrno\fP after function/system calls, and provides a
-.br
-nice call stack run\-time in \fBDev\fP build.
-.TP 
-\fBFail Fast\fP are wrappers around regular system calls like \fImalloc(3)\fP, and 
-.br
-\fIprintf(3)\fP functions that prints an error message to the console
-.br
-and dies, if a run\-time error happens, providing the same level
-.br
-of information as \fIperror(3)\fP but also prints the string constant
-.br
-for the error code if the format
-string ends with a ":".
+\fIaexception.h(3)\fP.
 .SH SEE ALSO
 .BI amalgam.h(3)
-.SH AUTHORS
+.SH AUTHORS AND SOURCES
 Mark J.Rochkind Advanced Unix Programming 2nd edition.
 .br
 David R. Hanson "C Interfaces and Applications"
+.br
+Brian W. Kernighan and Robert Pike "The Practice of Programming."
+.br
+Andrew G. Morgan Source code for making executable libraries.
 .SH COPYRIGHT
 Mark J.Rochkind April 2004-2025
 .br
