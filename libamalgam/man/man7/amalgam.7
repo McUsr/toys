@@ -43,7 +43,7 @@ so here you will need to implement everything build\-type wise
 .br
 on your own.
 .TP
-\fIaassert.h(3)\fP \-\-\ assertions like normal assertions, in \fBLA_DEV\fP, but
+\fIlaassert.h(3)\fP \-\-\ assertions like normal assertions, in \fBLA_DEV\fP, but
 .br
 now
 they will
@@ -52,14 +52,14 @@ launch \fBgdb\fP if an assertion fails in a \fBLA_DBG\fP
 build, and
 print a user\-friendly message in a \fBLA_REL\fP build.
 .TP 
-\fIahappypath.h(3)\fP standardizes the way of checking function return
+\fIlahappypath.h(3)\fP standardizes the way of checking function return
 .br
 codes for errors and \fBerrno\fP after function/system calls, and
 .br
 provides a
 nice call stack run\-time in \fBLA_DEV\fP build.
 .TP 
-\fIafailfast.h(3)\fP are wrappers around regular system calls like
+\fIlafailfast.h(3)\fP are wrappers around regular system calls like
 .br
 \fImalloc(3)\fP, and \fIprintf(3)\fP functions that prints an error
 .br
@@ -119,14 +119,21 @@ builds.
 .PP
 In addition, it provides a public interface for parsing buildmodes:
 .br
-\fIabuildmode.h(3)\fP, configuring a release error message:
+\fIlabuildmode.h(3)\fP, configuring a release error message:
 .br
-\fIareleasemsg.h(3)\fP,
+\fIlareleasemsg.h(3)\fP,
 and for implementing your own exceptions:
 .br
-\fIaexception.h(3)\fP.
+\fIlaexception.h(3)\fP.
 .SH SEE ALSO
 .BI amalgam.h(3)
+.BI laassert.h(3)
+.BI lahappypath.h(3)
+.BI lafailfast.h(3)
+.br
+.BI labuildmode.h(3)
+.BI lareleasemsg.h(3)
+.BI laexception.h(3)
 .SH AUTHORS AND SOURCES
 Mark J.Rochkind Advanced Unix Programming 2nd edition.
 .br
