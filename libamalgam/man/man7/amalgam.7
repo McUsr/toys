@@ -116,15 +116,15 @@ during debugging.
 This library enables you to keep your assertions active in release
 .br
 builds.
-.PP
-In addition, it provides a public interface for parsing buildmodes:
-.br
-\fIlabuildmode.h(3)\fP, configuring a release error message:
-.br
-\fIlareleasemsg.h(3)\fP,
-and for implementing your own exceptions:
-.br
-\fIlaexception.h(3)\fP.
+.SS "Additional interfaces provided, intrinsic to the library: 
+.TP
+\fIlabuildmode.h(3)\fP \-\- A public interface for parsing buildmodes
+.TP
+\fIlareleasemsg.h(3)\fP \-\- configuring a release error message:
+.TP
+\fIlaexception.h(3)\fP \-\- implementing your own exceptions:
+.TP
+\fIlasyserr.h(3)\fP  \-\- returning OS constant for \fBerrno\fP.
 .SH SEE ALSO
 .BI amalgam.h(3)
 .BI laassert.h(3)
@@ -134,6 +134,7 @@ and for implementing your own exceptions:
 .BI labuildmode.h(3)
 .BI lareleasemsg.h(3)
 .BI laexception.h(3)
+.BI lasyserr.h(3)
 .SH AUTHORS AND SOURCES
 Mark J.Rochkind Advanced Unix Programming 2nd edition.
 .br
