@@ -31,14 +31,14 @@ SOFTWARE.
 #define LA_CONF_SENTINEL
 /* So that we not inadvertently compiles the run time func in the
  * library! */
-#include "abuildmode.h"
+#include "labuildmode.h"
 #undef LA_CONF_SENTINEL
 
 #include <stdio.h>
 /**
  * @brief A debug function to help analyze any problems.
  */
-void prbuildmode(void)
+void la_prbuildmode(void)
 {
     LA_BuildMode curmode = LA_buildmode() ;
     switch(curmode) {

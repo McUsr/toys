@@ -108,7 +108,7 @@ returns to identify
 the
 build mode to the client program.
 .PP
-The function that retuns the current build mode runtime:
+\fBFunctions declared by this interface\fP
 .IP
 .RI LA_BuildMode " " la_buildmode(void) "" ;
 .br
@@ -117,6 +117,12 @@ Returns the current compiled buildmode to the client program
 run time as a 
 .IB LA_BuildMode
 value.
+.IP
+.RI void " " la_prbuildmode(void) "" ;
+.br
+Prints the current build mode to "\fIstdout\fP" \-\- for debugging
+.br
+purposes.
 .SH ERRORS
 You will get a linker error link time if you have forgotten to 
 .br

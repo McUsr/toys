@@ -77,5 +77,5 @@ typedef enum { LA__REL=0, LA__DEV=1, LA__DBG=2 } LA_BuildMode ;
          * that needs to know what kind of build mode this is.  */ 
 #   endif
 /* prbuildmode: A debug function to help analyze any problems. */
-void prbuildmode(void);
+void la_prbuildmode(void);
 #endif /* include guard */
