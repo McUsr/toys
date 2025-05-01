@@ -72,9 +72,9 @@ This caters for a unified behavior of different error handling
 .br
 strategies.
 .PP
-Therefore \fBamalgam\fP provides a productive addition where it is easy to
+Therefore \fBamalgam\fP provides a productive addition where it is easy
 .br
-configure the error handling for development ", testing and
+to configure the error handling for development ", testing and
 .br
 production for different kind of error handling strategies. 
 .PP
@@ -89,88 +89,43 @@ requst macros on the compiler command line, the library will
 default to \fBLA_DEV\fP giving a "normal" behavior with regards to error
 .br
 messages.
-.SS The different kinds of error handling strategies
-.TP
-Assertions
-.BR assert_cii(3)
-is a customized assertion that that may throw an exception,
-that can be handled by a 
-.B TRY ELSE END_TRY 
-block by the
-.BR  except (3)
-module which can be used on its own for own exception handling..
-.TP 
-Error-checking
-amalgam contains an
-.BR ec(3)
-module that contains methods for checking
-run\(emtime errors through macros and goto's from system calls. This strategy
-lets errors propagate through a happy path and eventualally produce a
-reverse stack trace.
-.TP 3
-Embedded error messaging with subsequent exit.
-The
-.BR eprintf2 (3)
-module contains functions for error messaging with exit,
-it also contains wrappers for 
-.BR emalloc (3)
-and other system calls.
-This is the simplest solution, but still a good one, when nothing really
-can be done once an error has occured, but to exit.
-.SS Overview of the other modules in the library
-.TP
-.BR err_conf (3)
-Configuration of the error handling is done by this module which contains
-mandatory calls for configuring whichever or sevenal of the  error
-handling strategies you choose.
-.TP
-.BR syserr(3)
-Delivering of error messages with the same constant as used in the mandual
-pages so that no lookup or translation is needed.
-.TP
-.BR except.h (3)
-A module that provides exception handling.
 .SH ENVIRONMENT
-The library as such is meant to work first and foremost on Linux with the
+The library as such is meant to work first and foremost on Linux
+.br
+with the
 .BR gcc(1)
 toolchain and
 .BR gdb(1)
-which is necessay for the stack traces.. 
-.SS Interfaces
-.TP
-.BI #include <suvreq>
+which is necessay for the
 .br
-	Standard Unix Version, determining and setting up.
-.TP
-.BI	#include <syserr.h>
-Defines a function for returning the literal error constant according to errno.
-.TP
-.BI	#include <ec.h>
-Consists of boilerplate macros and functions for writing cleaner code.
-.SH FILES
-.TP
-~/.local/src/libsysutil/makefile
-.TP
-~/.local/src/libsysutil/syserr.[ch]
-.TP
-~/.local/src/libsysutil/ec.[ch]
+stack traces. 
 .SH SEE ALSO
-.BR err_conf (3)
-.BR ec(3)
-,
-.BR eprintf2 (3)
-, 
-.BR syserr.h (3)
-,
-.BR except (3)
-, ~/.local/src/libsysutil/makefile
-.SH AUTHOR
+.BI amalgam(7)
+.BI laassert.h(3)
+.BI lahappypath.h(3)
+.BI lafailfast.h(3)
+.br
+.BI labuildmode.h(3)
+.BI lareleasemsg.h(3)
+.BI laexception.h(3)
+.BI lasyserr.h(3)
+.SH AUTHORS AND SOURCES
 Mark J.Rochkind Advanced Unix Programming 2nd edition.
 .br
 David R. Hanson "C Interfaces and Applications"
+.br
+Brian W. Kernighan and Robert Pike "The Practice of Programming."
+.br
+Andrew G. Morgan Source code for making executable libraries.
 .SH COPYRIGHT
-Mark J.Rochkind April 2004
+Mark J.Rochkind April 2004-2025
 .br
 David R. Hanson 1996-2025
+.br
+Brian W. Kernighan and Robert Pike 1999-2025
+.br
+Andrew G. Morgan <morgan@kernel.org> 2021-205
+.br
+Tommy Bollman 2025 Mit License.
 
 .\" vim: nospell

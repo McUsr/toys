@@ -1,7 +1,7 @@
 .\" see groff_man for syntax.
-.TH BUILDMODE.H 3 "2025" "libamalgam" "Library Functions Manual"
+.TH LABUILDMODE.H 3 "2025" "libamalgam" "Library Functions Manual"
 .SH NAME
-buildmode.h \-\- Detection of current build mode with respect to
+labuildmode.h \-\- Detection of current build mode with respect to
 .br
 .BI buildmode
 specified on the command line during build.
@@ -12,18 +12,22 @@ It is used by the
 .BI strategies
 in
 .BI libmamalgam.
+.br
+It can be utiized for own uses with regards to differing between
+.br
+buildmodes but you need to use the same feature request macros.
 .SH LIBRARY
 Development C library
 .RI  ( libamalgam ", " \-lamalgam )
 .SH SYNOPSIS
-.BI #include\ <buildmode.h>
+.BI #include\ <amalgam.h>
 .br
 or
 .br
-.BI #include\ <amalgam.h>
+.BI #include\ <labuildmode.h>
 .SH DESCRIPTION
 .PP
-.BI buildmode.h
+.BI labuildmode.h
 lets you configure the build mode of your program compile
 .br
 time which your program can probe through the function
@@ -61,11 +65,13 @@ specified compile-time (
 Macro definition to instigate parsing of build mode from within client
 .br program.
 .IP
+.BR Important!
+.IP
 .RI #define " "  LA_BUILDMODE_GET
 .br
 You need to
 .RI #define " "  LA_BUILDMODE_GET
-in some f c \- file that
+in some C\-file that
 .br
 is 
 compiled with the relevant feature request macro on the
@@ -104,7 +110,7 @@ build mode to the client program.
 .PP
 The function that retuns the current build mode runtime:
 .IP
-.RI LA_BuildMode " " buildmode(void) "" ;
+.RI LA_BuildMode " " la_buildmode(void) "" ;
 .br
 Returns the current compiled buildmode to the client program
 .br
@@ -116,34 +122,16 @@ You will get a linker error link time if you have forgotten to
 .br
 .RI #define " "  LA_BUILDMODE_GET
 before
-.BI #include\ <buildmode.h>
+.BI #include\ <amalgam.h>
 .br
 or
-.BI #include\ <amalgam.h>
-in some c  file that is compiled with the
+.BI #include\ <labuildmode.h>
+in some C\-file that is compiled with the
 .br
 relevant feature request macro and linked into
 your  program.
-.SH NOTES
-.PP
-In order for to make the functionality work you need to
-.br
-.RI #define " "  LA_BUILDMODE_GET
-before you 
-.BI #include\ <buildmode.h>
-or
-.br
-.BI #include\ <amalgam.h>
-in the c \- file you use to parse the feature
-.br
-request macro.
-.br
-This file needs to be compiled with the feature request macro and 
-.br
-linked with the finished program.
-.PP
-You will also need to link your project with 
-.BI \-lamalgam.
 .SH SEE ALSO
-amalgam(3)
+amalgam(7), amalgam.h(3)
+.SH COPYRIGHT
+Tommy Bollman 2025 Mit Licence.
 .\" vim: nospell
