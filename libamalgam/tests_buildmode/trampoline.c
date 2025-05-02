@@ -1,8 +1,8 @@
 /* A dummy module to see if it works anyway. */
-#include <poc.h>
+#include <amalgam.h>
 #include "trampoline.h"
 
 void juggler(void)
 {
-    prbuildmode();
+    la_prbuildmode();
 }

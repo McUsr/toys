@@ -67,17 +67,45 @@ Macro definition to instigate parsing of build mode from within client
 .IP
 .BR Important!
 .IP
-.RI #define " "  LA_BUILDMODE_GET
+Only use  one of  the two macros below in one source\-file meaning that
 .br
-You need to
+you GET the buildmode in e.g. \fBmain.c\fP, and USE it in other modules.
+.IP
 .RI #define " "  LA_BUILDMODE_GET
-in some C\-file that
+.IP
+.RI #define " "  LA_BUILDMODE_GET 
+to  get the defined buildmode
+in some
 .br
-is 
+C\-file before
+including 
+.BI amalgam.h(3)
+or
+.BI labuildmode.h(3)
+that is 
+.br
 compiled with the relevant feature request macro on the
-.br
 .BI gcc
-command line and linked into your program in the link phase.
+.br
+command line and linked
+into your program in the
+link phase.
+.IP
+.RI #define " "  LA_BUILDMODE_USE
+.IP
+.RI #define " "  LA_BUILDMODE_USE
+to get the defined buildmode in C\-files
+.br
+that call 
+.RI la_buildmode()
+before including
+.RI amalgam.h(3)
+or
+.br
+.RI labuildmode.h(3).
+Do this for every module that calls
+.br
+\fBla_buildmode()\fP
 .PP
 Feature request macros that can be set on the
 .BI gcc

@@ -1,11 +1,11 @@
 /* A dummy module to see if it works anyway. */
 
-#define LA_CONF_SENTINEL
-#include <poc.h>
-#undef LA_CONF_SENTINEL
+#define LA_BUILDMODE_USE
+#include <amalgam.h>
+#undef LA_BUILDMODE_USE
 #include "trampoline.h"
 
 void juggler(void)
 {
-    prbuildmode();
+    la_prbuildmode();
 }

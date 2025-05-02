@@ -1,3 +1,2 @@
 #/bin/ksh93
-ikb -x -t $(tty) "mdvim doc/buildnotes.md"
-ikb -x -t $(tty) "Stopped mc"
+ikb -x -t $(tty) "m ./amalgam.7"

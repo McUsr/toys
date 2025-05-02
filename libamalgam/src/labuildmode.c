@@ -28,11 +28,11 @@ SOFTWARE.
  * @brief Parses build mode from command line feature request macro.
  * SPDX-License-Identifier: MIT
  */
-#define LA_CONF_SENTINEL
+#define LA_BUILDMODE_USE
 /* So that we not inadvertently compiles the run time func in the
  * library! */
 #include "labuildmode.h"
-#undef LA_CONF_SENTINEL
+#undef LA_BUILDMODE_USE
 
 #include <stdio.h>
 /**

@@ -123,10 +123,21 @@ static void mu_licence(void)
 	fprintf(stderr, "Parts Copyright (C) 1999 Lucent Technologies \n");
 	fprintf(
 		stderr,
+		"Parts of the code used from  B.W Kernighan and R. Pike an \"The Practice of Programming\".\n");
+	fprintf(
+		stderr,
 		"Parts Copyright (c) 1985-2005 by Marc J. Rochkind. All rights reserved.\n");
 	fprintf(
 		stderr,
+		"Parts of the code used from  Marc J. Rochking \"Advanced Unix Programming.\".\n");
+    fprintf(
+		stderr,
+		"Parts Copyright (c) 1996 by David R. Hanson. All rights reserved.\n");
+	fprintf(
+		stderr,
 		"Parts of the code used from  David R. Hanson \"C Interfaces and Implementation\".\n");
+	fprintf(stderr, "Parts Copyright (c) 2021 Andrew G. Morgan <morgan@kernel.org>:\n"
+					"the code and howto for making the library executable.\n");
 	fprintf(stderr, "License:\n");
 	fprintf(
 		stderr,
@@ -140,6 +151,4 @@ static void mu_licence(void)
 		" source code, reproducible in binary form.\n");
 	fprintf(stderr,
 			"There are NO WARRANTIES to the extent permitted by law.\n");
-	fprintf(stderr, "Copyright (c) 2021 Andrew G. Morgan <morgan@kernel.org>:\n"
-					"the code and howto for making the library executable.\n");
 }

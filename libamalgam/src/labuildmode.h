@@ -33,7 +33,7 @@ SOFTWARE.
 /**> global type used by all clients of the buildmode module */
 typedef enum { LA__REL=0, LA__DEV=1, LA__DBG=2 } LA_BuildMode ;
 
-#   ifndef LA_CONF_SENTINEL
+#   ifndef LA_BUILDMODE_USE
 #       if defined(LA_BUILDMODE_GET)
 #           ifdef LA_DBG
 #               if defined(LA_DEV) || defined(LA_REL)
