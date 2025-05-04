@@ -1,0 +1,58 @@
+.\" see groff_man for syntax.
+.TH LAPROGRAMINFO.H 3  "2025" "libamalgam" "Library Functions Manual"
+.SH NAME
+laprograminfo.h \-\- module for setting standard release\-mode error
+.br
+message, program name
+and other meta data like program\-version. 
+.SH SYNOPSIS
+.BI #include\ <amalgam.h>
+.br
+or
+.br
+.BI #include\ <laprograminfo.h>
+.TP
+void la_freeReleaseEmsg(void);
+.TP
+#define syserrmsg(buf, buf_max, msg, s_errno)\
+  syserrmsgtype(buf, buf_max, msg, s_errno, EC_ERRNO)
+.TP
+char *syserrmsgtype(char *buf, size_t buf_max, const char *msg,
+  int s_errno, EC_ERRTYPE type);
+.TP
+char *syserrmsgline(char *buf, size_t buf_max,
+  int s_errno, EC_ERRTYPE type);
+.TP
+const char *getdate_strerror(int e);
+.TP
+const char *errsymbol(int errno_arg);
+.TP
+void syserr(const char *msg);
+.TP
+void syserr_print(const char *msg);
+.TP
+char *syserrmsgline(char *buf, size_t buf_max, int errno_arg, EC_ERRTYPE type);
+.SS #endif
+\fBsyserr.h\fP relies on a \fBtypedef\fP in \fBec.h\fP.
+.TP
+typedef enum {EC_ERRNO = 0, EC_EAI = 1, EC_GETDATE = 2, EC_NONE = 3} EC_ERRTYPE;
+.br
+.SH DESCRIPTION
+\fBsyserr.h\fP is a "logical" include file that includes the definition of functions to return meaningful error messages with literal error constants, to ease the identification of eventually what went wrong.
+.br
+The routines is incorparted in libsysutil.so, and should be automatically linked in.
+.SH FILES
+~/.local/include/syserr.h
+.br
+~/.local/src/libsysutil/syserr.[ch]
+.br
+/usr/local/lib/so64/libsysutil.so
+.SH SEE ALSO
+libsysutil(3), defs.h(3), ec.h(3) errno(3)
+.SH AUTHOR
+Mark J.Rochkind Advanced Unix Programming 2nd edition.
+
+.SH COPYRIGHT
+Mark J.Rochkind April 2004
+.\" TODO: really work out the rouitines into syserr.h, so everything is there.
+.\" vim: nospell
