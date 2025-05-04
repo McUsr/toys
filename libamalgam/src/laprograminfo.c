@@ -100,7 +100,7 @@ const char *la_releaseEmsg()
 
 static char *la_prog_name_str = NULL;
 
-static void la_freeprogname(void)
+void la_freeprogname(void)
 {
     if ( la_prog_name_str != NULL ) {
         free(la_prog_name_str);
@@ -110,7 +110,7 @@ static void la_freeprogname(void)
 
 /* sets the progname uses a fallback if argv[0] haven't been set.  */
 void la_setprogname(const char *fallbackname, const char *argv_null,
-				 const int nrargs)
+				 const int nrargs, const _Bool instfreehandler)
 {
 	char *tmpname;
 	if (nrargs > 0) {
@@ -137,10 +137,11 @@ void la_setprogname(const char *fallbackname, const char *argv_null,
         exit(EXIT_FAILURE);
     }
 
-
-	if (atexit(la_freeprogname) != 0) {
-		fprintf(stderr,"la_setprogrname atexit failed when installing la_freeprogname. Exiting.\n");
-        exit(EXIT_FAILURE);
+    if (instfreehandler) {
+        if (atexit(la_freeprogname) != 0) {
+            fprintf(stderr,"la_setprogrname atexit failed when installing la_freeprogname. Exiting.\n");
+            exit(EXIT_FAILURE);
+        }
     }
 }
 

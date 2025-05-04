@@ -3,21 +3,20 @@
   * Excerpted from 'The Practice of Programming'
   * by Brian W. Kernighan and Rob Pike (eprintf.[ch])
   * You may use this code for any purpose, as long as you leave the copyright notice and
-  * book citation attached.  */
+  * book citation attached.
+  * Parts Copyright © 2025 Tommy Bollman -- Mit Licence.  
+  * I have made changes and additions but the founding idea is R.P's and B.W.K's.
+  * The most significant change is the change of prefix from 'e' to 'la_e'.
+  * (Other functions that originally didn't have an 'e' prefix has gotten an 'la_' prefix
+  * as well.)
+  * All eventual errors  are mine  the codes  comes with no warranties about what so ever, to
+  * the extent permitted by law.
+  * You may use it as you like as long as you retain the whole Copyright/Licence note.
+  */
 
- /* I have made some changes, 
- * All eventual errors  are mine  this comes with no warranties about what so ever.
- * My parts are Copyright (c) 2025 McUsr, under the same terms as Lucent Technologies
- * above.;
- * You may use it as you like as long as you retain the copyright notice.
- */
-
-#ifndef LARELEASEMSG_H
-#define LARELEASEMSG_H
-/* Most parts Copyright (C) 1999 Lucent Technologies */
-/* Excerpted from 'The Practice of Programming' */
-/* by Brian W. Kernighan and Rob Pike (eprintf.[ch]
- *
+#ifndef LAPROGRAMINFO_H
+#define LAPROGRAMINFO_H
+ /*
  About eprintf2.c -- INTERFACE DOCUMENTATION
 
  * Most code, and most valuable parts by Brian W. Kernighan and Rob Pike, and Marc J. Rochkind.
@@ -35,8 +34,8 @@
  * command options, and other important information in your main program. This output goes
  * to stdout and not stderr. 
  *
- * You can provide a program name so that the programname is visible in any eprintf() or
- * die() messages you may have. This circumvents security concerns with regards to a
+ * You can provide a program name so that the programname is visible in any la_printf() or
+ * la_die() messages you may have. This circumvents security concerns with regards to a
  * non existant argv[0].
  *
  * You can also provide a version string so that the version number is visible in
@@ -45,7 +44,7 @@
  *
  * Features:
  *
- * The `eprintf()`, `weprintf()` and `die()` functions has the quirk that if
+ * The `la_printf()`, `la_wprintf()` and `la_die()` functions has the quirk that if
  * their fmt strings * are ended by a  ':' then they will append an error
  * string, an error number and an error constant which * is specific for the
  * *nix platform in use.
@@ -72,8 +71,12 @@ void la_setReleaseEmsg(char *s);
 /* la_releaseEmsg: Returns the release error message we have installed or the fallback message. */
 const char *la_releaseEmsg();
 
+/* la_freeprogname: frees program name. */
+void la_freeprogname(void);
+
 /* This call is optional, but no programname is ever written if it isn't called. */
-void la_setprogname( const char *fallbackname, const char *argv_null, const int nrargs );
+void la_setprogname( const char *fallbackname, const char *argv_null,
+        const int nrargs, const _Bool instfreehandler );
 
 /* returns the program name  if it is set NULL otherwise. */
 char *la_progname(void);

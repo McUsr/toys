@@ -22,5 +22,7 @@
 #include "labuildmode.h"
 /* header file for setting the build mode compile time. See: `man 7 amalgam`
  * `man 3 amalgam.h` `man 3 labuildmode.h`. */
-
+#include "laprograminfo.h"
+/* header file for setting the release message for LA_REL mode, and other 
+ * program meta data like program name and version. */
 #endif
