@@ -1,7 +1,7 @@
 .\" see groff_man for syntax.
-.TH laprograminfo.h 3  "2025" "libamalgam" "Library Functions Manual"
+.TH la_programinfo.h 3  "2025" "libamalgam" "Library Functions Manual"
 .SH NAME
-laprograminfo.h 
+la_programinfo.h 
 .SH LIBRARY
 Configurable error handling stragegies with respect to build mode.
 .br
@@ -11,9 +11,9 @@ Configurable error handling stragegies with respect to build mode.
 .br
 or
 .br
-.BI #include\ <laprograminfo.h>
+.BI #include\ <la_programinfo.h>
 .SH DESCRIPTION
-\fBlaprograminfo.h\fP \-\- module for setting program\-info like program
+\fBla_programinfo.h\fP \-\- interface for setting program\-info like program
 .br
 \-name,
 program\-version and the general error message to use in
@@ -31,35 +31,35 @@ lb lbx
 l l.
 Function    Description
 _
+\fBla_freegeneralerrormsg(3)\fP	T{
+free release build error message upon exit
+T}
 \fBla_freeprogname\fP(3)	T{
 free program name upon exit
 T}
-\fBla_freeReleaseEmsg(3)\fP	T{
-free release build error message upon exit
+\fBla_generalerrormsg\fP(3)	T{
+return release build error message run\-time
 T}
 \fBla_progname\fP(3)	T{
 return the program name at run\-time
 T}
-\fBla_progver\fP(3)	T{
+\fBla_progversion\fP(3)	T{
 return the program version at run\-time
 T}
-\fBla_releaseEmsg\fP(3)	T{
-return release build error message run\-time
+\fBla_setgeneralerrormsg\fP(3)	T{
+set release build error message before use
 T}
 \fBla_setprogname\fP(3)	T{
 set program name before use
 T}
-\fBla_setprogver\fP(3)	T{
+\fBla_setprogversion\fP(3)	T{
 set program version before use
-T}
-\fBla_setReleaseEmsg\fP(3)	T{
-set release build error message before use
 T}
 .TE
 .ad
 .hy
 .SH SEE ALSO
-amalgam(7), amalgam.h(3), labuildmode.h(3) 
+amalgam(7), amalgam.h(3), la_buildmode.h(3) 
 .SH AUTHOR
 Idea by Rob Pike and B.W. Kernighan in "Practice of Programming".
 .\" TODO: really work out the rouitines into syserr.h, so everything is there.

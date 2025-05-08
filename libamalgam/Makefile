@@ -12,7 +12,7 @@ CC = gcc
 # libtool
 # ---------------------------------------------------------
 # !Todo: ifequ origin.
-CUR_VER=2:0:0
+CUR_VER=3:0:0
 # (current:revision:age)
 
 # 1. Start with version information of ‘0:0:0’ for each libtool library.

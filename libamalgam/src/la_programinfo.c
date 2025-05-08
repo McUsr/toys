@@ -20,7 +20,7 @@
  * 25-02-03 McUsr/Tommy Bollman.
  */
 
-#include "amalgam.h"
+#include "la_programinfo.h"
 #if 1 == 1
 #include <unistd.h>
 #include <stdio.h>
@@ -68,7 +68,7 @@ static const char *fall_back_release_emsg = "An unrecoverable error happened.";
 static char		  *release_emsg = NULL; /* mem freed by eprintf if used by it */
 
 /* should be called before we Reraise when in dev mode. */
-void la_freeReleaseEmsg()
+void la_freegeneralerrormsg()
 {
 	if (release_emsg != NULL) {
 		free(release_emsg);
@@ -76,20 +76,20 @@ void la_freeReleaseEmsg()
 	}
 }
 
-void la_setReleaseEmsg(char *s)
+void la_setgeneralerrormsg(char *s)
 {
     if (s == NULL ) {
 		fprintf(stderr,"la_setReleaseEmsg: the string s == NULL. Exiting.\n" );
         exit(EXIT_FAILURE) ;
     }
 	release_emsg = strdup(s);
-	if (atexit(la_freeReleaseEmsg) != 0) {
+	if (atexit(la_freegeneralerrormsg) != 0) {
 		fprintf(stderr,"la_setReleaseEmsg: Couldn't install atextit handler. Exiting.\n" );
         exit(EXIT_FAILURE) ;
 	}
 }
 
-const char *la_releaseEmsg()
+const char *la_generalerrormsg()
 {
 	if (release_emsg == NULL)
 		return fall_back_release_emsg;
@@ -108,9 +108,10 @@ void la_freeprogname(void)
     }
 }
 
-/* sets the progname uses a fallback if argv[0] haven't been set.  */
+/* la_setprogname: sets the progname for use in messaages, using a fallback if argv[0]
+ * haven't been set.  */
 void la_setprogname(const char *fallbackname, const char *argv_null,
-				 const int nrargs, const _Bool instfreehandler)
+				 const int nrargs )
 {
 	char *tmpname;
 	if (nrargs > 0) {
@@ -137,11 +138,9 @@ void la_setprogname(const char *fallbackname, const char *argv_null,
         exit(EXIT_FAILURE);
     }
 
-    if (instfreehandler) {
-        if (atexit(la_freeprogname) != 0) {
-            fprintf(stderr,"la_setprogrname atexit failed when installing la_freeprogname. Exiting.\n");
-            exit(EXIT_FAILURE);
-        }
+    if (atexit(la_freeprogname) != 0) {
+        fprintf(stderr,"la_setprogrname atexit failed when installing la_freeprogname. Exiting.\n");
+        exit(EXIT_FAILURE);
     }
 }
 

@@ -15,40 +15,40 @@ Includes everything in the library through a single header file.
 .PP
 Individual header files for the modules.
 .PP
-.BI #include\ <labuildmode.h>
+.BI #include\ <la_buildmode.h>
 .br
 Lets you configure build modes compiled time that can be identified
 .br
 run time. Stand alone module. 
 .PP
-.BI #include\ <laprograminfo.h>
+.BI #include\ <la_programinfo.h>
 .br
 Lets you define the reassuring error message the end\-user sees,
 .br
 should a
 runtime error happen in a "\fBLA_REL\fP" build.
 .PP
-.BI #include\ <laassert.h>
+.BI #include\ <la_assert.h>
 .br
 An assert with configurable behavior with respect to build mode.
 .PP
-.BI #include\ <lafailfast.h>
+.BI #include\ <la_failfast.h>
 .br
 A failfast error strategy with configurable behavior with respect
 .br
 to build mode.
 .PP
-.BI #include\ <lahappypath.h>
+.BI #include\ <la_happypath.h>
 .br
 A module for errorchecking with configurable behavior with respect
 .br
 to build mode.
 .PP
-.BI #include\ <laexception.h>
+.BI #include\ <la_exception.h>
 .br
 A module for exception handling that is open for extension.
 .PP
-.BI #include\ <lasyserr.h>
+.BI #include\ <la_syserr.h>
 .br
 A module for returning OS specific constant for that \fBerrno\fP
 .YS
@@ -78,7 +78,7 @@ to configure the error handling for development ", testing and
 .br
 production for different kind of error handling strategies. 
 .PP
-The library is meant to let you keep your \fBlaassert\fPions active in
+The library is meant to let you keep your \fBla_assert\fPions active in
 .br
 releases, but printing a general user\-friendly error message..
 .PP
@@ -101,14 +101,14 @@ which is necessay for the
 stack traces. 
 .SH SEE ALSO
 .BI amalgam(7)
-.BI laassert.h(3)
-.BI lahappypath.h(3)
-.BI lafailfast.h(3)
+.BI la_assert.h(3)
+.BI la_happypath.h(2)
+.BI la_failfast.h(3)
 .br
-.BI labuildmode.h(3)
-.BI laprograminfo.h(3)
-.BI laexception.h(3)
-.BI lasyserr.h(3)
+.BI la_buildmode.h(3)
+.BI la_programinfo.h(3)
+.BI la_exception.h(3)
+.BI la_syserr.h(3)
 .SH AUTHORS AND SOURCES
 Mark J.Rochkind Advanced Unix Programming 2nd edition.
 .br

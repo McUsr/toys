@@ -39,7 +39,7 @@
  * non existant argv[0].
  *
  * You can also provide a version string so that the version number is visible in
- * simpleusage(), and that you can reuse in your usage()/help() function, the -V version
+ * a simpleusage() function, and that you can reuse in your usage()/help() function, the -V version
  * of your commandline parsing is then implemented for free.
  *
  * Features:
@@ -62,21 +62,21 @@
 
 /* la_freeReleaseEmsg: frees the message installed for custom error message in relase
  * build LA_REL */ 
-void la_freeReleaseEmsg();
+void la_freegeneralerrormsg();
 
 /* la_setReleaseEmsg: Sets the message string for the generalized release error message. */
 
-void la_setReleaseEmsg(char *s);
+void la_setgeneralerrormsg(char *s);
 
 /* la_releaseEmsg: Returns the release error message we have installed or the fallback message. */
-const char *la_releaseEmsg();
+const char *la_generalerrormsg();
 
 /* la_freeprogname: frees program name. */
 void la_freeprogname(void);
 
 /* This call is optional, but no programname is ever written if it isn't called. */
 void la_setprogname( const char *fallbackname, const char *argv_null,
-        const int nrargs, const _Bool instfreehandler );
+        const int nrargs );
 
 /* returns the program name  if it is set NULL otherwise. */
 char *la_progname(void);
