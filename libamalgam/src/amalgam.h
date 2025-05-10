@@ -18,7 +18,7 @@
  *  licence statment in binary form. 
  *  SPDX-License-Identifier: MIT
  */
-
+#include "ccclibreqs.h"
 #include "la_buildmode.h"
 /* header file for setting the build mode compile time. See: `man 7 amalgam`
  * `man 3 amalgam.h` `man 3 labuildmode.h`. */

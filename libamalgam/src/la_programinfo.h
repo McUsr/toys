@@ -16,6 +16,12 @@
 
 #ifndef LAPROGRAMINFO_H
 #define LAPROGRAMINFO_H
+
+
+#   ifndef AMALGAM_H
+#       error "include file not included by amalgam.h"
+#   endif
+
  /*
  About eprintf2.c -- INTERFACE DOCUMENTATION
 

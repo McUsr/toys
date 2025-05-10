@@ -30,6 +30,10 @@ SOFTWARE.
 #ifndef BUILDMODE_H
 #define BUILDMODE_H
 
+#   ifndef AMALGAM_H
+#       error "include file not included by amalgam.h"
+#   endif
+
 /**> global type used by all clients of the buildmode module */
 typedef enum { LA__REL=0, LA__DEV=1, LA__DBG=2 } LA_BuildMode ;
 

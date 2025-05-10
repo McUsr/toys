@@ -31,6 +31,7 @@ SOFTWARE.
 #define LA_BUILDMODE_USE
 /* So that we not inadvertently compiles the run time func in the
  * library! */
+#include "amalgam.h"
 #include "la_buildmode.h"
 #undef LA_BUILDMODE_USE
 

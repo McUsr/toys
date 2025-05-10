@@ -19,8 +19,9 @@
  *
  * 25-02-03 McUsr/Tommy Bollman.
  */
-
+#include "amalgam.h"
 #include "la_programinfo.h"
+
 #if 1 == 1
 #include <unistd.h>
 #include <stdio.h>
