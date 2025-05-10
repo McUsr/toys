@@ -13,7 +13,12 @@ libamalgam configure error handling with respect to build mode
 .br
 Includes everything in the library through a single header file.
 .PP
-Individual header files for the modules.
+Individual header files for the modules for your convenience they
+.br
+must be included 
+.BR AFTER
+.BI amalgam.h
+has been included.
 .PP
 .BI #include\ <la_buildmode.h>
 .br
@@ -99,6 +104,13 @@ toolchain and
 which is necessay for the
 .br
 stack traces. 
+.SH NOTES
+.BI amalgam.h
+must always be included, header files for the separate
+.br
+interfaces can be included for convenience as it is easier to see
+.br
+the function declarations in the module then.
 .SH SEE ALSO
 .BI amalgam(7)
 .BI la_assert.h(3)

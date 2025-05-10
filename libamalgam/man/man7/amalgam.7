@@ -43,7 +43,7 @@ so here you will need to implement everything build\-type wise
 .br
 on your own.
 .TP
-\fIlaassert.h(3)\fP \-\-\ assertions like normal assertions, in \fBLA_DEV\fP, but
+\fIla_assert.h(3)\fP \-\-\ assertions like normal assertions, in \fBLA_DEV\fP, but
 .br
 now
 they will
@@ -52,14 +52,14 @@ launch \fBgdb\fP if an assertion fails in a \fBLA_DBG\fP
 build, and
 print a user\-friendly message in a \fBLA_REL\fP build.
 .TP 
-\fIlahappypath.h(3)\fP standardizes the way of checking function return
+\fIla_happypath.h(3)\fP standardizes the way of checking function return
 .br
 codes for errors and \fBerrno\fP after function/system calls, and
 .br
 provides a
 nice call stack run\-time in \fBLA_DEV\fP build.
 .TP 
-\fIlafailfast.h(3)\fP are wrappers around regular system calls like
+\fIla_failfast.h(3)\fP are wrappers around regular system calls like
 .br
 \fImalloc(3)\fP, and \fIprintf(3)\fP functions that prints an error
 .br
@@ -118,23 +118,30 @@ This library enables you to keep your assertions active in release
 builds.
 .SS "Additional interfaces provided, intrinsic to the library: 
 .TP
-\fIlabuildmode.h(3)\fP \-\- A public interface for parsing buildmodes
+\fIla_buildmode.h(3)\fP \-\- A public interface for parsing buildmodes
 .TP
-\fIlareleasemsg.h(3)\fP \-\- configuring a release error message:
+\fIla_releasemsg.h(3)\fP \-\- configuring a release error message:
 .TP
-\fIlaexception.h(3)\fP \-\- implementing your own exceptions:
+\fIla_exception.h(3)\fP \-\- implementing your own exceptions:
 .TP
-\fIlasyserr.h(3)\fP  \-\- returning OS constant for \fBerrno\fP.
+\fIla_syserr.h(3)\fP  \-\- returning OS constant for \fBerrno\fP.
+.SH NOTES
+.BI amalgam.h
+must always be included, header files for the separate
+.br
+interfaces can be included for convenience as it is easier to see
+.br
+the function declarations in the module then.
 .SH SEE ALSO
 .BI amalgam.h(3)
-.BI laassert.h(3)
-.BI lahappypath.h(3)
-.BI lafailfast.h(3)
+.BI la_assert.h(3)
+.BI la_happypath.h(3)
+.BI la_failfast.h(3)
 .br
-.BI labuildmode.h(3)
-.BI lareleasemsg.h(3)
-.BI laexception.h(3)
-.BI lasyserr.h(3)
+.BI la_buildmode.h(3)
+.BI la_releasemsg.h(3)
+.BI la_exception.h(3)
+.BI la_syserr.h(3)
 .SH AUTHORS AND SOURCES
 Mark J.Rochkind Advanced Unix Programming 2nd edition.
 .br

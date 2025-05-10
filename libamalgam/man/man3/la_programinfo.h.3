@@ -11,6 +11,8 @@ Configurable error handling stragegies with respect to build mode.
 .br
 or
 .br
+.BI #include\ <amalgam.h>
+.br
 .BI #include\ <la_programinfo.h>
 .SH DESCRIPTION
 \fBla_programinfo.h\fP \-\- interface for setting program\-info like program
@@ -58,6 +60,13 @@ T}
 .TE
 .ad
 .hy
+.SH NOTES
+.BI amalgam.h
+must always be included, header files for the separate
+.br
+interfaces can be included for convenience as it is easier to see
+.br
+the function declarations in the module then.
 .SH SEE ALSO
 amalgam(7), amalgam.h(3), la_buildmode.h(3) 
 .SH AUTHOR
