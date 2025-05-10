@@ -18,6 +18,22 @@
 #define _XOPEN_SOURCE 500
 #define _POSIX_C_VERSION 200809L
 #include <unistd.h>
+/* we need to have unistd.h or other includedd before checking __GLIBC__ 
+ * symbols. */
+
+#ifdef __GLIBC__
+#   if __GLIBC__ >= 2
+#       if  __GLIBC_MINOR__ < 19 
+#           error "This library requires glibc >= 2.19"
+#       endif
+#   else
+#           error "This library requires glibc >= 2.19"
+#   endif
+#else
+#   error "This library requires glibc >= 2.19"
+#endif
+
+
 /* checking if the system can deliver what we need 
  * define _BSD_SOURCE or _SVID_SOURCE yourself if thats' the only options.
  * you have for making strdup work.
