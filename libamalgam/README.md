@@ -68,8 +68,23 @@ library executable and just add a prototype to call the library's `licence()`
 function, since the idea behind the executable mechanism is to provide
 versioning and licence information.
 
+#### Porting to other more or less compatible POSIX platforms.
 
-  Last updated:25-04-25 23:14
+So far I have avoided adding too much overhead for testing for different
+platforms. The module I think is the most difficult, is the la_syserr module,
+since those constants vary a little from platform to platform. However Marc J.
+Rochkind has provided a program to generate the la_syserr.c file in the source
+code thatt goes with "Advanced Unix Programming 2nd Edition", I have taken the
+liberty to modify this a little and placed it in the `mk_lasyserr`
+directory.  There  are instructions there for what to do when you have rebuilt
+and tested it. If you're not using git, then it goes without saying that you
+should spare a copy of the old version.
+
+To find the platform you want to port to, look for and read the constant values
+in `mk_lasyserr/platformdefs.h`
+
+
+  Last updated:25-05-11 21:05
 
 <!--
 vim: foldlevel=99 nospell
