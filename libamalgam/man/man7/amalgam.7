@@ -8,13 +8,9 @@ amalgam \- Configurable error strategies with respect to build mode.
 .br
 parsing of compile time feature request macros to define the
 .br
-current
-build mode, to make it easy to configure the behavior of
+current build mode, to make it easy to configure the behavior of
 .br
-the
-error
-handling strategies
-behavior in a uniform fashion with
+the error handling strategies behavior in a uniform fashion with
 .br
 respect to build mode. 
 .PP
@@ -22,7 +18,7 @@ The motivation behind, is to have error handling strategies that
 .br
 behaves according to the current build mode, so that we can define
 .br
-the build mode to get the wanted behaviour of the error handling
+the build mode to get the wanted behavior of the error handling
 .br
 strategies.
 .SS "Error handling strategies that \fBAmalgam\fP supports"
@@ -41,7 +37,9 @@ your own exceptions, but this is totally agnostic to build modes,
 .br
 so here you will need to implement everything build\-type wise
 .br
-on your own.
+on your own, but you can leverage upon the predefined build mode
+.br
+constants.
 .TP
 \fIla_assert.h(3)\fP \-\-\ assertions like normal assertions, in \fBLA_DEV\fP, but
 .br
@@ -51,6 +49,12 @@ launch \fBgdb\fP if an assertion fails in a \fBLA_DBG\fP
 .br
 build, and
 print a user\-friendly message in a \fBLA_REL\fP build.
+.IP
+This library enables you to keep your assertions active in
+.br
+release builds, so you can release uncompromised hardened
+.br
+code.
 .TP 
 \fIla_happypath.h(3)\fP standardizes the way of checking function return
 .br
@@ -66,14 +70,16 @@ nice call stack run\-time in \fBLA_DEV\fP build.
 message to the console and dies, if a run\-time error happens,
 .br
 providing the same level
-of information as \fIperror(3)\fP but can also
+of information as \fIperror(3)\fP but can
 .br
-be
-utilized to return the \fBERROR\fP constant as specified on the man\-
+be utilized to return the \fBERROR\fP string constant (\fBERR_SYM\fP)
 .br
-page for the library or system call. (The constant can vary from
+e.g. \fBEIO\fP
+as specified on the man page for the library
 .br
-platform to platform).
+or system call.
+.IP
+The \fBERR_SYM\fP can vary from platform to platform see: \fBNOTES\fP.
 .SS "The different build modes"
 .TP
 \fBLA_DBG\fP \-\- Debug mode used for inspecing runtime bugs in Gdb. 
@@ -81,24 +87,40 @@ platform to platform).
 \fBLA_DEV\fP \-\- Development mode for mimicking standard behavor runtime.
 .TP
 \fBLA_REL\fP \-\- Release mode gives a user friendly  message to end users.
-.SS "About error messages"
-.PP
-\fBAmalgam\fP also provide more detail in error messages than
+.SS "Error messages can include an error symbol (\fBERR_SYM\fP) as in Man pages"
+.TP
+More precise error messages in \fBdev builds\fP
+.br
+\fBAmalgam\fP can also provide more detail in error messages than
+.br
 .BI perror(3)
+because we can get the string constant (\fBERR_SYM\fP) for the
 .br
-because we get  the constant for the error number that is referred
+error number  that is referred to in the manual page for the
 .br
-to in the manual page for the function, like \fBEIO\fP is listed as an
+function, like \fBEIO\fP is listed as an error code in the manual page
 .br
-error code in the manual page for 
+for 
 .BI read(2)
-so that we
-can simply
+so that we can simply read the explanation for the
 .br
-read the explanation for the error code in the manual page.
-.PP
-Knowing possible reasons for an error can help during debugging.
-.PP
+error code in the manual page.
+.IP
+Being able to relate the \fBERR_SYM\fP from the error message to the
+.br
+error description in the function's man page may help under\-
+.br
+standing the problem when the error description returned by
+.br
+.BI perror(3)
+or
+.BI strerror(3)
+is difficult to relate to the \fBerror\fP
+.br
+\fBsymbols\fP in the man page of the function.
+.TP
+One general error message to end user in \fBrelease builds\fP
+.br
 Using one standard error message in \fBLA_REL\fP mode for runtime errors
 .br
 isn't only more user\-friendly, but also makes your program at least
@@ -106,16 +128,12 @@ isn't only more user\-friendly, but also makes your program at least
 a little bit more difficult to exploit, hiding cause, filename and
 .br
 line\-number.
-.PP
-Launching \fBGdb\fP directly upon a run\-time error in \fBLA_DBG\fP mode letting
+.TP
+Launching \fBGdb\fP directly upon a run\-time error in \fBdebug builds\fP 
 .br
-you inspect variables and the call stack directly is a time saver
+This lets you inspect variables and the call stack directly
 .br
-during debugging.
-.PP
-This library enables you to keep your assertions active in release
-.br
-builds.
+which is a time saver during debugging.
 .SS "Additional interfaces provided, intrinsic to the library: 
 .TP
 \fIla_buildmode.h(3)\fP \-\- A public interface for parsing buildmodes
@@ -132,6 +150,19 @@ must always be included, header files for the separate
 interfaces can be included for convenience as it is easier to see
 .br
 the function declarations in the module then.
+.PP
+In order to get correct \fBERR_SYM\fP returned from \fIla_syserr.h\fP for a platform 
+.br
+other than Linux, you can use one of the following
+platform identifers
+.br
+on the \fBGcc\fP command line (\fB\-D...\fP) when building the library:
+.BI BSD,
+.br
+.BI BSD_DERIVED,
+.BI DARWIN,
+.BI FREEBSD,
+.BI SOLARIS.
 .SH SEE ALSO
 .BI amalgam.h(3)
 .BI la_assert.h(3)
