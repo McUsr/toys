@@ -55,7 +55,9 @@ A module for exception handling that is open for extension.
 .PP
 .BI #include\ <la_syserr.h>
 .br
-A module for returning OS specific constant for that \fBerrno\fP
+A module for returning the Unix platform specific string constant
+.br
+for that \fBerrno\fP (\fBERR_SYM\fP).
 .YS
 .\" todo, write in the interface here.
 .SH DESCRIPTION
@@ -79,9 +81,9 @@ strategies.
 .PP
 Therefore \fBamalgam\fP provides a productive addition where it is easy
 .br
-to configure the error handling for development ", testing and
+to configure error handling for development, testing and
 .br
-production for different kind of error handling strategies. 
+production, for the different error handling strategies. 
 .PP
 The library is meant to let you keep your \fBla_assert\fPions active in
 .br

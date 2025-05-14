@@ -151,17 +151,19 @@ interfaces can be included for convenience as it is easier to see
 .br
 the function declarations in the module then.
 .PP
-In order to get correct \fBERR_SYM\fP returned from \fIla_syserr.h\fP for a platform 
+In order to get correct \fBERR_SYM\fP returned from \fIla_syserr.h\fP for
 .br
+a platform 
 other than Linux, you can use one of the following
+.br
 platform identifers
+on the \fBGcc\fP command line (\fB\-D...\fP) when building
 .br
-on the \fBGcc\fP command line (\fB\-D...\fP) when building the library:
-.BI BSD,
-.br
-.BI BSD_DERIVED,
+the library:
 .BI DARWIN,
 .BI FREEBSD,
+.BI HPUX,
+and
 .BI SOLARIS.
 .SH SEE ALSO
 .BI amalgam.h(3)
