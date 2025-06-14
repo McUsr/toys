@@ -1,0 +1,21 @@
+# Makefile for updating header files of general utility.
+INSTPATH := ~/.local/include
+SRCHEADERS := $(wildcard headers/*.h)
+
+DSTHEADERS := $(patsubst headers/%h, ~/.local/include/%h, ${SRCHEADERS})
+
+all: $(DSTHEADERS)
+
+$(INSTPATH)/stdmacros.h: headers/stdmacros.h 
+	cp -i $^ $@
+
+$(INSPATH)/stdtypedefs.h: headers/stdtypedefs.h
+	cp -i $^ $@
+
+$(INSTPATH)/include/suvreq.h: headers/suvreq.h
+	cp -i $^ $@
+
+
+
+
+
