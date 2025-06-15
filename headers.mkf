@@ -13,7 +13,7 @@ $(INSPATH)/stdtypedefs.h: headers/stdtypedefs.h
 	cp -i $^ $@
 
 $(INSTPATH)/include/suvreq.h: headers/suvreq.h
-	cp -i $^ $@
+	cp -n $^ $@
 
 
 

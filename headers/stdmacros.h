@@ -198,6 +198,15 @@ default endian.
  /* vec(long) l = {0};  // using directly
  * typedef vec(int) int_array;  // declaring a type
  */
+/**
+ * Macros for comparing floats based on some epsilon
+ * that defines the number of digits precision used for
+ * comparision.
+ */
+
+/* double epsilon = 1e-10;  // 10 digits precision */
+#define COMPARE_FLOATS(a, b, epsilon) (fabs(a - b) <= epsilon * fabs(a))
+#define DIFFERENT_FLOATS(a, b, epsilon) (fabs(a - b) >= epsilon * fabs(a))
 
 /**
 Macros to make pesky long gcc compiler attributes more edible.
