@@ -19,6 +19,12 @@
  *  SPDX-License-Identifier: MIT
  */
 
+#ifdef _ASSERT_H
+#   if _ASSERT_H == 1
+#       error "standard assert.h included before amalgam.h"
+#   endif
+#endif
+
 #include "ccclibreqs.h"
 #include <stdbool.h>
 #include "la_buildmode.h"
