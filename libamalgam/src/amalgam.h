@@ -18,11 +18,23 @@
  *  licence statment in binary form. 
  *  SPDX-License-Identifier: MIT
  */
+
 #include "ccclibreqs.h"
+#include <stdbool.h>
 #include "la_buildmode.h"
 /* header file for setting the build mode compile time. See: `man 7 amalgam`
  * `man 3 amalgam.h` `man 3 labuildmode.h`. */
 #include "la_programinfo.h"
 /* header file for setting the release message for LA_REL mode, and other 
  * program meta data like program name and version. */
+typedef enum {EC_ERRNO = 0, EC_EAI = 1, EC_GETDATE = 2, EC_NONE = 3} EC_ERRTYPE;
+
+/* EC_ERRTYPE is a common type shared between both "la_syserr" and "la_happypath" */
+
+#define EC_EINTERNAL INT_MAX
+/* EC_EINTERNAL: value to signal an internal error in a library func or whatever. */
+#include "la_syserr.h"
+#include "la_logf.h"
+#include "la_happypath.h"
+
 #endif
