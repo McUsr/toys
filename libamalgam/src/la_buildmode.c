@@ -68,6 +68,9 @@ LA_BuildMode la_relbuildmode(void)
 {
     return LA_REL ;
 }
+/* "dummy" function so that the function name is taken  in this namespace
+ * and causes a compiler error if it is redifned, so that no silly things
+ * happens */
 LA_BuildMode (la_buildmode)(void) 
 {
     return LA_DEV ;
