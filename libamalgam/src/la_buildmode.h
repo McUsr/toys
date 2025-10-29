@@ -33,52 +33,47 @@ SOFTWARE.
 #   ifndef AMALGAM_H
 #       error "include file not included by amalgam.h"
 #   endif
+/* Checking for illegal definitions */
+#ifdef LA_DEV
+#   undef LA_DEV
+#   define LADEV
+#endif
+#ifdef LA_DBG
+#   undef LA_DBG
+#   define LADBG
+#endif
+#ifdef LA_REL
+#   undef LA_REL
+#   define LAREL
+#endif
 /**> global type used by all clients of the buildmode module */
-typedef enum { LA__REL=0, LA__DEV=1, LA__DBG=2 } LA_BuildMode ;
+typedef enum { LA_DEV=0,LA_DBG=1, LA_REL=2 } LA_BuildMode ;
 
-#   ifndef LA_BUILDMODE_USE
-#       if defined(LA_BUILDMODE_GET)
-#           ifdef LA_DBG
-#               if defined(LA_DEV) || defined(LA_REL)
-#                   error"You can only define one of the LA_DEV, LA_REL and EC_DBG feature request macros." 
-#               endif
-                LA_BuildMode LA_buildmode(void) 
-                {
-                    return LA__DBG ;
-                }
-#               undef LA_BUILDMODE_GET
-#           elif defined (LA_DEV)
-#               if defined(EC_DBG) || defined(LA_REL)
-#                   error "You can only define one of the LA_DEV, LA_REL and EC_DBG feature request macros."
-#               endif
-                LA_BuildMode LA_buildmode(void) 
-                {
-                    return LA__DEV ;
-                }
-#               undef LA_BUILDMODE_GET
-#           elif defined (LA_REL)
-#               if defined(EC_DBG) || defined(LA_DEV)
-#                   error "You can only define one of the LA_DEV, LA_REL and EC_DBG feature request macros."
-#               endif
-                LA_BuildMode LA_buildmode(void) 
-                {
-                    return LA__REL ;
-                }
-#               undef EC_PARSE_BUILDMODE
-#           else
-                LA_BuildMode LA_buildmode(void) 
-                {
-                    return LA__DEV ;
-                }
-                /* The function is declared here, free for use by clients
-                 * that needs to know what kind of build mode this is.  */ 
-#           endif
-#       endif
-#   else
-        LA_BuildMode LA_buildmode(void) ;
-        /* The function is declared here, free for use by clients
-         * that needs to know what kind of build mode this is.  */ 
+extern LA_BuildMode la_buildmode(void);
+/* extern LA_BuildMode la_buildmode(void); */
+extern LA_BuildMode la_dbgbuildmode(void);
+extern LA_BuildMode la_devbuildmode(void) ;
+extern LA_BuildMode la_relbuildmode(void) ;
+
+#if defined (LADBG)
+#   if defined(LADEV) || defined(LAREL)
+#       error "You can only define one of the LA_DEV, LA_REL and EC_DBG feature request macros." 
 #   endif
+#   define la_buildmode() la_dbgbuildmode()
+#elif defined (LADEV)
+#   if defined(ECDBG) || defined(LAREL)
+#       error "You can only define one of the LA_DEV, LA_REL and EC_DBG feature request macros." 
+#   endif
+#   define la_buildmode() la_devbuildmode()
+#elif defined (LAREL)
+#   if defined(ECDBG) || defined(LADEV)
+#       error "You can only define one of the LA_DEV, LA_REL and EC_DBG feature request macros." 
+#   endif
+#   define la_buildmode() la_relbuildmode()
+#else
+#   define LADEV
+#   define la_buildmode() la_devbuildmode()
+#endif
 /* prbuildmode: A debug function to help analyze any problems. */
-void la_prbuildmode(void);
+void la_prbuildmode(LA_BuildMode curmode );
 #endif /* include guard */

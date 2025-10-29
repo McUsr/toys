@@ -28,32 +28,47 @@ SOFTWARE.
  * @brief Parses build mode from command line feature request macro.
  * SPDX-License-Identifier: MIT
  */
-#define LA_BUILDMODE_USE
-/* So that we not inadvertently compiles the run time func in the
- * library! */
 #include "amalgam.h"
-#include "la_buildmode.h"
-#undef LA_BUILDMODE_USE
+/* #include "la_buildmode.h" */
 
 #include <stdio.h>
 /**
  * @brief A debug function to help analyze any problems.
  */
-void la_prbuildmode(void)
+void la_prbuildmode(LA_BuildMode curmode )
 {
-    LA_BuildMode curmode = LA_buildmode() ;
+    /* LA_BuildMode curmode = la_buildmode() ; */
     switch(curmode) {
-        case LA__DEV:
-          printf("LA__DEV\n") ;  
+        case LA_DEV:
+          printf("LADEV\n") ;  
           break;
-        case LA__DBG:
-          printf("LA__DBG\n") ;  
+        case LA_DBG:
+          printf("LADBG\n") ;  
           break;
-        case LA__REL:
-          printf("LA__REL\n") ;  
+        case LA_REL:
+          printf("LAREL\n") ;  
           break;
         default:
           printf("Can't happen! Something is very wrong!\n");
           break;
     }
+}
+/* default value */
+LA_BuildMode la_dbgbuildmode(void) 
+{
+    return LA_DBG ;
+}
+
+LA_BuildMode la_devbuildmode(void) 
+{
+    return LA_DEV ;
+}
+
+LA_BuildMode la_relbuildmode(void) 
+{
+    return LA_REL ;
+}
+LA_BuildMode (la_buildmode)(void) 
+{
+    return LA_DEV ;
 }
