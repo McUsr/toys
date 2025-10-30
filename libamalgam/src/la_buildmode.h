@@ -49,7 +49,7 @@ SOFTWARE.
 /**> global type used by all clients of the buildmode module */
 typedef enum { LA_DEV=0,LA_DBG=1, LA_REL=2 } LA_BuildMode ;
 
-extern LA_BuildMode la_buildmode(void);
+LA_BuildMode la_buildmode(void);
 /* extern LA_BuildMode la_buildmode(void); */
 extern LA_BuildMode la_dbgbuildmode(void);
 extern LA_BuildMode la_devbuildmode(void) ;
