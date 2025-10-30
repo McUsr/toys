@@ -5,7 +5,8 @@
  *
  *
  */
-
+#ifndef CCCLIBREQS_H
+#define CCCLIBREQS_H
 #ifdef __STDC_VERSION__
 #   if !  (__STDC_VERSION__ >= 199901L) 
 #       error "Needs support for c99." 
@@ -17,6 +18,12 @@
 /* Now that that's sorted telling the system what we want. */
 #define _XOPEN_SOURCE 500
 #define _POSIX_C_VERSION 200809L
+
+#ifdef __GNUC__
+#   ifndef _GNU_SOURCE 
+#       define _GNU_SOURCE /* Need for EAI_ADDRFAMILY and EAI_NODATA */
+#   endif
+#endif
 #include <unistd.h>
 /* we need to have unistd.h or other includedd before checking __GLIBC__ 
  * symbols. */
@@ -56,3 +63,4 @@
 #   endif
 #endif
 
+#endif
