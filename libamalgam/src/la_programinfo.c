@@ -65,7 +65,13 @@
  */
 
 
-static const char *fall_back_release_emsg = "An unrecoverable error happened.";
+static const char *fall_back_release_emsg =
+    "An internal error has occurred from which there is no recovery.\n"
+    "Please report this error to the software vendor and mark\n"
+    "the subject line with BUG: (program name).\n\nNote the following"
+    " message which will help our support staff\nfind the cause of"
+    " this error.\n\n\n";
+
 static char		  *release_emsg = NULL; /* mem freed by eprintf if used by it */
 
 /* should be called before we Reraise when in dev mode. */
