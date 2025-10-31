@@ -1,11 +1,13 @@
 /* A dummy module to see if it works anyway. */
 
 #define LA_BUILDMODE_USE
-#include <amalgam.h>
 #undef LA_BUILDMODE_USE
+#include <amalgam.h>
 #include "trampoline.h"
 
 void juggler(void)
 {
-    la_prbuildmode(la_buildmode());
+    LA_BuildMode curbuild = la_buildmode() ;
+    la_prbuildmode(curbuild); 
+    /* la_prbuildmode(); */
 }

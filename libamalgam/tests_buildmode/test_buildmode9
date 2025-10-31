@@ -1,0 +1,10 @@
+#!/bin/ksh93
+#
+echo $0: This test should return LA_REL \(the enum value for LA\{DEV,REL,DBG\}\)
+gcc -g3 -DLAREL -Werror -I$i -c trampoline4.c 
+if [ $? -eq 0 ] ; then 
+  cc -g3 -DLAREL -I$i test_buildmode.c trampoline4.o -lamalgam -o test_buildmode
+  test_buildmode
+else
+  echo fails to compile/link
+fi

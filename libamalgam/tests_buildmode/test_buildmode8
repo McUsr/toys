@@ -1,0 +1,15 @@
+#!/bin/ksh93
+if [ ! -v i ] ; then 
+  echo \$i not set exiting!
+  exit 2
+fi
+echo $0: This test doesn\'t fail due to LA_BUILDMODE_USE not set.
+# gcc -g3 -DLA_REL -Wno-implicit-function-declaration -I$i -c trampoline3.c 
+gcc -g3 -DLAREL -Werror -I$i -c trampoline3.c 
+# echo "exit code: "$?
+if [ $? -eq 0 ] ; then 
+  cc -g3 -DLAREL -I$i test_buildmode.c trampoline3.o -lamalgam -o test_buildmode
+  test_buildmode
+else
+  echo fails to compile/link
+fi

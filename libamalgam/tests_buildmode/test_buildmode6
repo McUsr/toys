@@ -1,6 +1,6 @@
 #!/bin/ksh93
-echo "$0: This test should fail, since we haven't specifed LA_BUILDMODE_GET anywhere."
-cc -g3 -DLA_REL -I$i test_buildmode2.c trampoline.c -lamalgam -o test_buildmode
+echo "$0: This test shouldn't fail, since we doesn't use LA_BUILDMODE_GET anywhere."
+cc -g3 -DLAREL -I$i test_buildmode2.c trampoline.c -lamalgam -o test_buildmode
 if [ $? -eq 0 ] ; then 
   test_buildmode
 else

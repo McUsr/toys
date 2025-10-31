@@ -1,4 +1,4 @@
 #!/bin/ksh93
-echo $0: This test should return LA__DBG .
-cc -g3 -DLA_DBG -I$i test_buildmode.c trampoline.c -lamalgam -o test_buildmode
+echo $0: This test should return LADBG .
+cc -g3 -DLADBG -I$i test_buildmode.c trampoline.c -lamalgam -o test_buildmode
 test_buildmode

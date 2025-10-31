@@ -1,4 +1,4 @@
 #!/bin/ksh93
-echo $0: This test should return LA__REL .
-cc -g3 -DLA_REL -I$i test_buildmode.c trampoline.c -lamalgam -o test_buildmode
+echo $0: This test should return LAREL .
+cc -g3 -DLAREL -I$i test_buildmode.c trampoline.c -lamalgam -o test_buildmode
 test_buildmode

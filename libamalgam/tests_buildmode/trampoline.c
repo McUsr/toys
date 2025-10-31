@@ -4,5 +4,5 @@
 
 void juggler(void)
 {
-    la_prbuildmode();
+    la_prbuildmode(la_buildmode());
 }

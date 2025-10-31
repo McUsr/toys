@@ -1,4 +1,4 @@
 #!/bin/ksh93
-echo $0: This test should return LA__DEV .
-cc -g3 -DLA_DEV -I$i test_buildmode.c trampoline.c -lamalgam -o test_buildmode
+echo $0: This test should return LADEV .
+cc -g3 -DLADEV -I$i test_buildmode.c trampoline.c -lamalgam -o test_buildmode
 test_buildmode
