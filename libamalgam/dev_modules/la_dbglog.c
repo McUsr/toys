@@ -56,20 +56,27 @@ void la_dbglog_deinit(void)
     }
     return;
 }
-
-bool la_dbglogfn_set( char *fn)
+/* if we can't set the logfilename, we halt with 
+ * error message immediately.
+ */
+void la_dbglogfn_set( char *fn)
 {
     if ((fn == NULL) || *fn == '\0' )
-        return false ;
+        goto errnofn;
     char *fntmp ;
-
-    if ( (fntmp = strdup(fn)) == NULL ) 
-        return false ;
-    else {
+    if ( (fntmp = strdup(fn)) == NULL ) {
+        goto errstrdup; 
+    } else {
         dbglogfn = fntmp ;
         logfnset = true ;
-        return true ;
+        return;
     }
+errstrdup:
+    fprintf(stderr, " strdup couldn't return valid copy of const fn.\n");
+    exit(EXIT_FAILURE);
+errnofn:
+    fprintf(stderr, "No filename passed as a parameter, exiting.\n");
+    exit(EXIT_FAILURE);
 }
 
 char *la_dbglogfn_get()

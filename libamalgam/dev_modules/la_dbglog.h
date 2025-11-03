@@ -26,12 +26,12 @@
 typedef enum {LA_FATAL=0,LA_LOGLVL1,LA_LOGLVL2,LA_LOGLVL3,
     LA_LOGLVL4, LA_LOGLVL5,LA_LOGLVL6,LA_LOGLVL17} La_loglvl ;
 
-typedef enum {LA_EMERG=0,LA_LOGGRP1=0x01,LOGGRP2=0x02,
-             LOGGRP3=0x04, LOGGRP4=0x08,LOGGRP5=0x10,
-             LOGGRP6=0x20,LOGGRP7=0x40, LOGGRP8=0x80,
-             LOGGRP9=0x100,LOGGRP10=0x200,LOGGRP11=0x400,
-             LOGGRP12=0x800,LOGGRP13=0x1000,LOGGRP14=0x2000,
-             LOGGRP15=0x4000, LOGGRP16=0x8000 } La_loggrp;
+typedef enum {LA_EMERG=0,LA_LOGGRP1=0x01,LA_LOGGRP2=0x02,
+             LA_LOGGRP3=0x04, LA_LOGGRP4=0x08,LA_LOGGRP5=0x12,
+             LA_LOGGRP6=0x20,_LA_LOGGRP7=0x40,LA_LOGGRP8=0x80,
+            LA_LOGGRP9=0x100,LA_LOGGRP10=0x200, LA_LOGGRP11=0x400,
+             LA_LOGGRP12=0x800, LA_LOGGRP13=0x1000,LA_LOGGRP14=0x2000,
+             LA_LOGGRP15=0x4000, LA_LOGGRP16=0x8000 } La_loggrp;
 
 extern unsigned int LOGGING_LEVEL ; /* set to FATAL in la_dbgtrace.c */
 extern unsigned int LOGGING_GROUP ; /* set to EMERG in la_dbgtrace.c */
@@ -39,21 +39,6 @@ extern unsigned int LOGGING_GROUP ; /* set to EMERG in la_dbgtrace.c */
 
 extern unsigned int  STD_LOGGING_LEVEL; /* set to lowest level with highest value */
 extern unsigned int STD_LOGGING_GROUP; /* we need to |= together the values. */
-
-/* this is default for me, but should be able
- * to turn off by config manager. (TODO) make the macros or calls!
- */
-
-/* there is a   pattern here, just like in build_mode to get this to workii
- * I think I will utilize the fact that the libraries are giving one instance
- * of itself to each and every program that uses it.
- *
- * I am not sure if this works though, because this is a function we call
- * from within the library. And the library is alread compiled.
- * Maybe it is more apt to use a function pointer in
- * this case.
- * I mean that is what I'll do if this isn't working.
- */
 
 
 
@@ -66,31 +51,21 @@ extern FILE *dbgfp ;
 
 extern void (*la_dbglog_close)() ;
 
-extern bool la_dbglogfn_set( char *fn) ;
+extern void la_dbglogfn_set( char *fn);
 extern char *la_dbglogfn_get();
 extern void la_dbgopenlog( const char *fname);
 extern bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup,
         char *fname );
+
 bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup, char *fname );
 void la_dbglog_setlevel(La_loglvl newlevel);
+
 void la_dbglog_addgroup(La_loggrp newgroup );
 void la_dbglog_delgroup(unsigned int oldgroup );
 void la_dbglog_disable(bool flag);
 char *la_dbglog_time(void);
 
-/* another construct that won't work as it was */
 
-
-/* MACRO MATERIAL:
-#include <stdio.h>
-#define eprintf(format, ...) \
-  fprintf (stderr, format __VA_OPT__(,) __VA_ARGS__)
-int main(void)
-{
-    eprintf("Hello world\n");
-    return 0;
-}
-*/
 /* DBGTR p.p 259 "C FOR FUN AND PROFIT" */
 #define LA_DBGLOG_LOG( trace_level, trace_group, la_fprintf_call) \
 { if (la_dbglog_atlevel(trace_level,trace_group,\
