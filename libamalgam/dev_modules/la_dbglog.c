@@ -110,6 +110,7 @@ char *la_dbglog_open_write()
  */
 void la_dbglog_close_append()
 {
+    //GDB
    fclose(dbgfp) ;
    dbgfp = NULL ;
 } 
@@ -124,16 +125,14 @@ void la_dgblog_close_noappend() {
 void la_dbgopenlog( const char *fname)
 {
    if ((dbgfp == NULL)  && (*la_dbgdologging)()) {
-       if ((fname == NULL) || fname[0] == '\0' ) {
+       if ((fname == NULL) || fname[0] == '\0' ) 
            fname = dbglogfn ;
-           dbgfp = fopen(fname,(*la_dbglog_open_mode)());
-       }
+       dbgfp = fopen(fname,(*la_dbglog_open_mode)());
        if (dbgfp == NULL ) {
            fprintf(stderr, "la_dgbopenlog  open error: file %s, mode %s\n",
                    fname,(*la_dbglog_open_mode)());
            exit(EXIT_FAILURE);
        }
-       //GDB
    }
 }
 
@@ -148,6 +147,7 @@ void la_dbgopenlog( const char *fname)
 bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup, char *fname )
 {
     bool ret;
+    //GDB
     if (la_dbgdologging() == false ) {
         ret = false ;
     } else  {

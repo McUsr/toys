@@ -74,8 +74,8 @@ char *la_dbglog_time(void);
 /* DBGTR1 p.p 259 "C FOR FUN AND PROFIT" this covers them all,
  * as nowadays we do have __VA_OPT__ and __VA_ARGS__  */
 #define LA_DBGLOG_ADDTOLOG(fmt, ...)\
-{ LA_DBGLOG_LOG(STD_LOGGING_LEVEL,STD_LOGGING_GROUP,\
-   fprintf(dbgfp,fmt __VA_OPT__(,) __VA_ARGS__)); }
+{ LA_DBGLOG_LOG(STD_LOGGING_LEVEL,STD_LOGGING_GROUP, \
+   fprintf(dbgfp,fmt __VA_OPT__(,) (__VA_ARGS__))); }
 
 #define LA_DBGLOG_HERE LA_DBGLOG_ADDTOLOG( "log in file %s at line %d\n",\
     __FILE__, __LINE__)
