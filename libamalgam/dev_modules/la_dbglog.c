@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include "la_dbglog.h"
-
 unsigned int LOGGING_LEVEL;
 unsigned int LOGGING_GROUP ; /* set to EMERG in la_dbgtrace.c */
 unsigned int STD_LOGGING_LEVEL = LA_FATAL; 
@@ -16,15 +15,33 @@ static char *dbglogfn = NULL ;
 /* this is the fallback filename compiled into the library. */
 FILE *dbgfp = NULL;
 
+bool (*la_dbgdologging)() ;/* not bad really , can be used later in a program */
+bool la_dbgdolog(); 
+bool la_dbgnologging(); 
 
-/* heavily commented in cfgmgr */
+char *(*la_dbglog_open_mode)() ; /* Address of the "real" function. */
+char *la_dbglog_open_append();
+char *la_dbglog_open_write();
+
+
+void (*la_dbglog_close)() ;
+void la_dbglog_close_append() ;
+void la_dbglog_close_noappend() ;
+
 void la_dbglog_init (void) __attribute__((constructor (101))); 
 void la_dbglog_deinit (void) __attribute__((destructor (101))); 
 
+/* TODO needs setter and gette for append
+ * and a good and easy one for do/donotdo logging.
+ */
 void la_dbglog_init(void) 
 {
     LOGGING_LEVEL = LA_FATAL ;
     LOGGING_GROUP = LA_EMERG;
+
+   la_dbgdologging = la_dbgnologging; 
+   la_dbglog_open_mode = la_dbglog_open_append ; 
+   la_dbglog_close = la_dbglog_close_append;
 
     dbglogfn = dbglogfallbackfn ;
     return;
@@ -64,6 +81,7 @@ bool la_dbgdolog()
 {
     return true ;
 }
+
 
 bool la_dbgnologging()
 {

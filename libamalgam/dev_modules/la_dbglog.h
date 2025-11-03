@@ -15,8 +15,6 @@
 #       error "la_buildmode.h not included by amalgam.h"
 #   endif
 
-extern bool la_dbgdolog(); 
-extern bool la_dbgnologging(); 
 
 #ifdef LAREL
     #define LA_NODBGTRACE 1
@@ -24,22 +22,6 @@ extern bool la_dbgnologging();
 /* We wipe out logging macros 
  * in release builds.
  */
-
-#   ifndef LA_NODBGLOGGING
-#       ifndef LA_DBGLOG
-#           define LA_DBGLOG
-#       endif
-
-bool (*la_dbgdologging)() = la_dbgdolog; /* not bad really , can be used later in a program */
-
-#else 
-#       ifndef LA_DBGLOG
-#           define LA_DBGLOG
-#       endif
-
-bool (*la_dbgdologging)() = la_dbgnologging; 
-
-#endif 
 
 typedef enum {LA_FATAL=0,LA_LOGLVL1,LA_LOGLVL2,LA_LOGLVL3,
     LA_LOGLVL4, LA_LOGLVL5,LA_LOGLVL6,LA_LOGLVL17} La_loglvl ;
@@ -59,35 +41,8 @@ extern unsigned int  STD_LOGGING_LEVEL; /* set to lowest level with highest valu
 extern unsigned int STD_LOGGING_GROUP; /* we need to |= together the values. */
 
 /* this is default for me, but should be able
- * to turn off by config manager.
+ * to turn off by config manager. (TODO) make the macros or calls!
  */
-#   ifndef LA_DBGLOG_JUST_CLOSE
-#       define LA_DBGLOG_CLOSE_APPEND 1
-#endif
-
-
-
-extern char *la_dbglog_open_append();
-extern char *la_dbglog_open_write();
-
-extern void la_dbglog_close_append() ;
-
-extern void la_dbglog_close_noappend() ;
-#ifdef LA_DBGLOG_CLOSE_APPEND 
-
-/* if this doesnt't work as anticipated, then I might either add to the function pointer
- *  specificatin (*fptr)()) to avoid statical linking to  the function address compile
- *  time of the library. maybe that ensures that the compiler will look up the address
- *  at that spot run time. */
-
-    char *(*la_dbglog_open_mode)() = la_dbglog_open_append ; /* Address of the "real" function. */
-    void (*la_dbglog_close)() = la_dbglog_close_append;
-
-#else
-
-    char *(*la_dbglog_open_mode)() = la_dbglog_open_write ; /* Address of the "real" function. */
-    void (*la_dbglog_close)() = la_dbglog_close_noappend;
-#endif
 
 /* there is a   pattern here, just like in build_mode to get this to workii
  * I think I will utilize the fact that the libraries are giving one instance
@@ -108,6 +63,9 @@ extern void la_dbglog_close_noappend() ;
  */
 
 extern FILE *dbgfp ;
+
+extern void (*la_dbglog_close)() ;
+
 extern bool la_dbglogfn_set( char *fn) ;
 extern char *la_dbglogfn_get();
 extern void la_dbgopenlog( const char *fname);
