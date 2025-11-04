@@ -66,6 +66,11 @@ void la_dbglogfn_set( char *fn)
     if ( (fntmp = strdup(fn)) == NULL ) {
         goto errstrdup; 
     } else {
+        if (logfnset )  {
+            /* already alloced space for a file name */ 
+            fprintf(stderr, "dgblogfn != NULL:  %p\n",dbglogfn) ;
+            free(dbglogfn);
+        }
         dbglogfn = fntmp ;
         logfnset = true ;
         return;
@@ -77,8 +82,13 @@ errnofn:
     fprintf(stderr, "No filename passed as a parameter, exiting.\n");
     exit(EXIT_FAILURE);
 }
-
-char *la_dbglogfn_get()
+/* main purpose is to open the logfile from the error strategies.
+ * I'm frankly not  sure if I need it if it is internal.
+ *
+ * the other thing that isn't encapsulated is the file handle.
+ * This should be more protrected?
+ */
+char *la_dbglog_get_fn()
 {
     return dbglogfn;
 }
@@ -121,7 +131,7 @@ void la_dgblog_close_noappend() {
  * config data or use the default file name which in turn
  * uses a fallback value if nott set. -- pass NULL or ""
  * to use default value */
-void la_dbgopenlog( const char *fname)
+static void la_dbgopenlog( const char *fname)
 {
    if ((dbgfp == NULL)  && (*la_dbgdologging)()) {
        if ((fname == NULL) || fname[0] == '\0' ) 
@@ -162,7 +172,6 @@ bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup, char *fname )
  * Those are the control values that la_dbglog_atlevel uses
  * to determine whether a log entry should be submitted or not.
  */
-// TODO: Static baby, static!
 void la_dbglog_setlevel(La_loglvl newlevel)
 {
     LOGGING_LEVEL = newlevel ;
@@ -173,7 +182,7 @@ void la_dbglog_addgroup(La_loggrp newgroup )
     LOGGING_GROUP |= newgroup ;
 }
 
-void la_dbglog_delgroup(unsigned int oldgroup )
+void la_dbglog_delgroup(La_loggrp oldgroup )
 {
     LOGGING_GROUP ^= oldgroup ;
 }

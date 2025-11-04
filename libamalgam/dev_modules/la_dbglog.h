@@ -40,31 +40,34 @@ typedef enum {LA_EMERG=0,LA_LOGGRP1=0x01,LA_LOGGRP2=0x02,
 
 extern FILE *dbgfp ;
 
-extern void (*la_dbglog_close)() ;
 
-extern void la_dbglogfn_set( char *fn);
-extern char *la_dbglogfn_get();
-extern void la_dbgopenlog( const char *fname);
-extern bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup,
-        char *fname );
 
-bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup, char *fname );
-void la_dbglog_setlevel(La_loglvl newlevel);
+/* extern void la_dbgopenlog( const char *fname); */
 
-void la_dbglog_addgroup(La_loggrp newgroup );
-void la_dbglog_delgroup(unsigned int oldgroup );
-void la_dbglog_set_stdlevel(La_loglvl stdlevel);
-La_loglvl la_dbglog_get_stdlevel(void);
-void la_dbglog_set_stdgroup(La_loggrp stdgroup );
-La_loggrp la_dbglog_get_stdgroup(void );
-void la_dbglog_disable(bool flag);
-char *la_dbglog_time(void);
+
+
 
 #ifndef LA_NODBGLOG 
+
+extern void la_dbglog_setlevel(La_loglvl newlevel);
+extern void (*la_dbglog_close)() ;
+extern void la_dbglogfn_set( char *fn);
+extern char *la_dbglog_get_fn();
+extern bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup,
+        char *fname );
+extern void la_dbglog_addgroup(La_loggrp newgroup );
+extern void la_dbglog_delgroup(La_loggrp oldgroup );
+extern void la_dbglog_set_stdlevel(La_loglvl stdlevel);
+extern La_loglvl la_dbglog_get_stdlevel(void);
+extern void la_dbglog_set_stdgroup(La_loggrp stdgroup );
+extern La_loggrp la_dbglog_get_stdgroup(void );
+extern void la_dbglog_disable(bool flag);
+extern char *la_dbglog_time(void);
+
 /* DBGTR p.p 259 "C FOR FUN AND PROFIT" */
 #define LA_DBGLOG_LOG(trace_level,trace_group,la_fprintf_call) \
 { if (la_dbglog_atlevel(trace_level,trace_group,\
-   la_dbglogfn_get())) { la_fprintf_call; la_dbglog_close() ; } }
+   la_dbglog_get_fn())) { la_fprintf_call; la_dbglog_close() ; } }
 
 /* DBGTR1 p.p 259 "C FOR FUN AND PROFIT" this covers them all,
  * as nowadays we do have __VA_OPT__ and __VA_ARGS__  */
@@ -76,7 +79,7 @@ char *la_dbglog_time(void);
 
 #define LA_DBGLOG_HERE \
 { if (la_dbglog_atlevel(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(),\
-   la_dbglogfn_get())) {\
+   la_dbglog_get_fn())) {\
     fprintf(dbgfp,"log in file %s at line %d\n",(__FILE__), (__LINE__)); \
     la_dbglog_close() ; } }
 
@@ -90,6 +93,7 @@ char *la_dbglog_time(void);
 
 #define LA_DBGLOG_SETLEVEL(level) la_dbglog_setlevel((level)) 
 #define LA_DBGLOG_ADDGROUP(group) la_dbglog_addgroup((group)) 
+#define LA_DBGLOG_DELGROUP(group) la_dbglog_delgroup((group)) 
 #define LA_DBGLOG_STD_LEVEL(level) la_dbglog_set_stdlevel((level))
 #define LA_DBGLOG_STD_GROUP(group) la_dbglog_set_stdgroup((group))
 #define LA_DBGLOG_FN_SET(fname) la_dbglogfn_set((fname))
@@ -115,6 +119,7 @@ char *la_dbglog_time(void);
 
 #define LA_DBGLOG_SETLEVEL(level 
 #define LA_DBGLOG_ADDGROUP(group)
+#define LA_DBGLOG_DELGROUP(group)
 #define LA_DBGLOG_STD_LEVEL(level)
 #define LA_DBGLOG_STD_GROUP(group) 
 #define LA_DBGLOG_FN_SET(fname)  
