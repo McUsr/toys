@@ -16,6 +16,9 @@
 #endif
 
 /* Now that that's sorted telling the system what we want. */
+#ifdef _XOPEN_SOURCE
+    #undef _XOPEN_SOURCE
+#endif 
 #define _XOPEN_SOURCE 500
 #define _POSIX_C_VERSION 200809L
 

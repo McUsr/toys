@@ -32,17 +32,6 @@ SOFTWARE.
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
-#include <amalgam.h>
-
-#   define AMALGAM_H
-#   ifndef AMALGAM_H
-#       error "include file not included by amalgam.h"
-#   endif
-
-#   define LA_BUILDMODE_H
-#   ifndef LA_BUILDMODE_H
-#       error "la_buildmode.h not included by amalgam.h"
-#   endif
 
 /* defining LA_DODGBLOG on the compiler command line gives you opportunity
  * to override the * wipeout of logging in LAREL (LA_REL) release buildsm,
