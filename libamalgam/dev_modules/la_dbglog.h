@@ -1,5 +1,34 @@
 #ifndef LA_DBGLOG_H
 #define LA_DBGLOG_H
+/*
+MIT License
+
+Copyright (c) 2025 Tommy Bollman
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
+
+/**
+ * @file
+ * @brief Logs values and execution during development and release mode.
+ * SPDX-License-Identifier: MIT
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -15,7 +44,10 @@
 #       error "la_buildmode.h not included by amalgam.h"
 #   endif
 
-
+/* defining LA_DODGBLOG on the compiler command line gives you opportunity
+ * to override the * wipeout of logging in LAREL (LA_REL) release buildsm,
+ * if it should be necessary to log in release builds.
+ */
 #ifdef LAREL
 #   ifndef LA_DODGBLOG
 #       define LA_NODBGLOG 1
@@ -119,4 +151,5 @@ extern void la_dbglog_set_stdgroup(La_loggrp stdgroup );
 extern La_loggrp la_dbglog_get_stdgroup(void );
 extern void la_dbglog_disable(bool flag);
 extern char *la_dbglog_time(void);
+extern void la_dbglog_log_fatal(const char * fatal_emsg );
 #endif

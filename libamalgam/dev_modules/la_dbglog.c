@@ -1,3 +1,32 @@
+/*
+MIT License
+
+Copyright (c) 2025 Tommy Bollman
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+ */
+
+/**
+ * @file
+ * @brief Logs values and execution during development and release mode.
+ * SPDX-License-Identifier: MIT
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -71,6 +100,35 @@ void la_dbglog_cfg_open_write(void)
     }
     
 }
+
+static void la_dbgopenlog( const char *fname)
+{
+   if ((dbgfp == NULL)  && (*la_dbgdologging)()) {
+       if ((fname == NULL) || fname[0] == '\0' ) 
+           fname = dbglogfn ;
+       dbgfp = fopen(fname,(*la_dbglog_open_mode)());
+       if (dbgfp == NULL ) {
+           fprintf(stderr, "la_dgbopenlog  open error: file %s, mode %s\n",
+                   fname,(*la_dbglog_open_mode)());
+           exit(EXIT_FAILURE);
+       }
+   }
+}
+
+/* logs a message to the current log in release mode,
+ * so that the user can reproduce it when filing a bug.
+ * Made for use by the `la_assert` and `la_failfast` modules
+ * (by proxy).
+ */
+void la_dbglog_log_fatal(const char * fatal_emsg )
+{
+    if (dbgfp == NULL ){
+        la_dbgopenlog(dbglogfn) ;
+        fprintf(dbgfp,"%s\n",fatal_emsg); 
+        la_dbglog_close();
+    }
+}
+
 /* if we can't set the logfilename, we halt with 
  * error message immediately.
  */
@@ -148,19 +206,6 @@ void la_dbglog_close_noappend() {
  * config data or use the default file name which in turn
  * uses a fallback value if nott set. -- pass NULL or ""
  * to use default value */
-static void la_dbgopenlog( const char *fname)
-{
-   if ((dbgfp == NULL)  && (*la_dbgdologging)()) {
-       if ((fname == NULL) || fname[0] == '\0' ) 
-           fname = dbglogfn ;
-       dbgfp = fopen(fname,(*la_dbglog_open_mode)());
-       if (dbgfp == NULL ) {
-           fprintf(stderr, "la_dgbopenlog  open error: file %s, mode %s\n",
-                   fname,(*la_dbglog_open_mode)());
-           exit(EXIT_FAILURE);
-       }
-   }
-}
 
 /* return 1 if trace for specified group at specified level is 
  * enabled, otherwise return 0 - open log file if needed.
@@ -173,7 +218,6 @@ static void la_dbgopenlog( const char *fname)
 bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup, char *fname )
 {
     bool ret;
-    //GDB
     if (la_dbgdologging() == false ) {
         ret = false ;
     } else  {
