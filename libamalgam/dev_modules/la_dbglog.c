@@ -21,8 +21,8 @@ bool la_dbgdolog();
 bool la_dbgnologging(); 
 
 char *(*la_dbglog_open_mode)() ; /* Address of the "real" function. */
-char *la_dbglog_open_append();
-char *la_dbglog_open_write();
+static char *la_dbglog_open_append();
+static char *la_dbglog_open_write();
 
 
 void (*la_dbglog_close)() ;
@@ -32,21 +32,21 @@ void la_dbglog_close_noappend() ;
 void la_dbglog_init (void) __attribute__((constructor (101))); 
 void la_dbglog_deinit (void) __attribute__((destructor (101))); 
 
-/* TODO needs setter and gette for append
- * and a good and easy one for do/donotdo logging.
- */
-void la_dbglog_init(void) 
+static bool dbglog_disabled;
+void la_dbglog_init(void)  /* default values */
 {
 
-   la_dbgdologging = la_dbgnologging; 
-   la_dbglog_open_mode = la_dbglog_open_append ; 
-   la_dbglog_close = la_dbglog_close_append;
+   la_dbgdologging = la_dbgnologging;            /* no logging     */
+   dbglog_disabled = true ;
+   la_dbglog_open_mode = la_dbglog_open_append ; /* append to file */
+   la_dbglog_close = la_dbglog_close_append;     /* and close it   */
 
-    dbglogfn = dbglogfallbackfn ;
+    dbglogfn = dbglogfallbackfn ;                /* hardcoded name */
     return;
 }
 
-static bool logfnset = false ;
+
+static bool logfnset = false ; /* if have allocated string */
 void la_dbglog_deinit(void) 
 {
     if (logfnset) {
@@ -54,6 +54,22 @@ void la_dbglog_deinit(void)
         dbglogfn = NULL ;
     }
     return;
+}
+/* configures the log to keep log file open and not close it
+ * after every log call.
+ * It is much easier to save the current file if logging is disabled first.
+ */
+void la_dbglog_cfg_open_write(void)
+{
+    if (dbglog_disabled == true ) {
+        la_dbglog_open_mode = la_dbglog_open_write ;    /* open for writing  */
+        la_dbglog_close = la_dbglog_close_noappend;     /* don't close it    */
+    } else {
+        fprintf(stderr, "Error: la_dbglog_cfg_open_write:\n"
+               "Configuring open mode while logging is enabled...exiting!\n");
+        exit(EXIT_FAILURE);
+    }
+    
 }
 /* if we can't set the logfilename, we halt with 
  * error message immediately.
@@ -123,7 +139,8 @@ void la_dbglog_close_append()
    fclose(dbgfp) ;
    dbgfp = NULL ;
 } 
-void la_dgblog_close_noappend() { 
+
+void la_dbglog_close_noappend() { 
     return;
 }
 
@@ -216,8 +233,10 @@ void la_dbglog_disable(bool flag)
 {
     if (flag) { /* shall disable */
         la_dbgdologging = la_dbgnologging; 
+        dbglog_disabled = true ;
    } else {  /* shall enable */
         la_dbgdologging = la_dbgdolog; 
+        dbglog_disabled = false;
    }
 }
 
