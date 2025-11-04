@@ -42,6 +42,6 @@ typedef enum {EC_ERRNO = 0, EC_EAI = 1, EC_GETDATE = 2, EC_NONE = 3} EC_ERRTYPE;
 /* EC_EINTERNAL: value to signal an internal error in a library func or whatever. */
 #include "la_syserr.h"
 /* #include "la_logf.h" */
-#include "la_happypath.h"
+/* #include "la_happypath.h" */
 
 #endif
