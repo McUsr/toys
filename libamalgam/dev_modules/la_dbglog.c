@@ -3,10 +3,11 @@
 #include <stdlib.h>
 #include <time.h>
 #include "la_dbglog.h"
-unsigned int LOGGING_LEVEL;
-unsigned int LOGGING_GROUP ; /* set to EMERG in la_dbgtrace.c */
-unsigned int STD_LOGGING_LEVEL = LA_FATAL; 
-unsigned int  STD_LOGGING_GROUP = LA_EMERG ;
+
+static unsigned int LOGGING_LEVEL = LA_FATAL;
+static unsigned int LOGGING_GROUP = LA_EMERG; 
+static unsigned int STD_LOGGING_LEVEL = LA_FATAL; 
+static unsigned int STD_LOGGING_GROUP = LA_EMERG ;
 
 
 static  char *dbglogfallbackfn = "LA_DBGLOG.log";
@@ -36,8 +37,6 @@ void la_dbglog_deinit (void) __attribute__((destructor (101)));
  */
 void la_dbglog_init(void) 
 {
-    LOGGING_LEVEL = LA_FATAL ;
-    LOGGING_GROUP = LA_EMERG;
 
    la_dbgdologging = la_dbgnologging; 
    la_dbglog_open_mode = la_dbglog_open_append ; 
@@ -159,8 +158,11 @@ bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup, char *fname )
     return ret;
 } 
 
-/* set logging level that must be met or undercut for log entry */
-// Static baby, static!
+/* set logging level that must be met or undercut for log entry
+ * Those are the control values that la_dbglog_atlevel uses
+ * to determine whether a log entry should be submitted or not.
+ */
+// TODO: Static baby, static!
 void la_dbglog_setlevel(La_loglvl newlevel)
 {
     LOGGING_LEVEL = newlevel ;
@@ -174,6 +176,31 @@ void la_dbglog_addgroup(La_loggrp newgroup )
 void la_dbglog_delgroup(unsigned int oldgroup )
 {
     LOGGING_GROUP ^= oldgroup ;
+}
+
+/* Unlike the setters above, those below sets the
+ * default values for the "shorthand" macros that emit 
+ * log entries (emitters).
+ * LA_DBGLOG_ADDTOLOG,LA_DBGLOG_STR, LA_DBGLOG_HERE,LA_DBGLOG_TIME.
+ */
+void la_dbglog_set_stdlevel(La_loglvl stdlevel)
+{
+    STD_LOGGING_LEVEL = stdlevel ;
+}
+
+La_loglvl la_dbglog_get_stdlevel(void)
+{
+    return STD_LOGGING_LEVEL  ;
+}
+
+void la_dbglog_set_stdgroup(La_loggrp stdgroup )
+{
+    STD_LOGGING_GROUP = stdgroup ;
+}
+
+La_loggrp la_dbglog_get_stdgroup(void )
+{
+    return STD_LOGGING_GROUP  ;
 }
 
 void la_dbglog_disable(bool flag)

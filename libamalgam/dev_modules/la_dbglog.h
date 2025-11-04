@@ -17,7 +17,9 @@
 
 
 #ifdef LAREL
-    #define LA_NODBGTRACE 1
+#   ifndef LA_DODGBLOG
+#       define LA_NODBGLOG 1
+#   endif
 #endif 
 /* We wipe out logging macros 
  * in release builds.
@@ -33,19 +35,8 @@ typedef enum {LA_EMERG=0,LA_LOGGRP1=0x01,LA_LOGGRP2=0x02,
              LA_LOGGRP12=0x800, LA_LOGGRP13=0x1000,LA_LOGGRP14=0x2000,
              LA_LOGGRP15=0x4000, LA_LOGGRP16=0x8000 } La_loggrp;
 
-extern unsigned int LOGGING_LEVEL ; /* set to FATAL in la_dbgtrace.c */
-extern unsigned int LOGGING_GROUP ; /* set to EMERG in la_dbgtrace.c */
 
 
-extern unsigned int  STD_LOGGING_LEVEL; /* set to lowest level with highest value */
-extern unsigned int STD_LOGGING_GROUP; /* we need to |= together the values. */
-
-
-
-/* TODO: I need to set the filename later 
- * search for those functions, I know I have programmed
- * them earlier.
- */
 
 extern FILE *dbgfp ;
 
@@ -62,26 +53,70 @@ void la_dbglog_setlevel(La_loglvl newlevel);
 
 void la_dbglog_addgroup(La_loggrp newgroup );
 void la_dbglog_delgroup(unsigned int oldgroup );
+void la_dbglog_set_stdlevel(La_loglvl stdlevel);
+La_loglvl la_dbglog_get_stdlevel(void);
+void la_dbglog_set_stdgroup(La_loggrp stdgroup );
+La_loggrp la_dbglog_get_stdgroup(void );
 void la_dbglog_disable(bool flag);
 char *la_dbglog_time(void);
 
-
+#ifndef LA_NODBGLOG 
 /* DBGTR p.p 259 "C FOR FUN AND PROFIT" */
-#define LA_DBGLOG_LOG( trace_level, trace_group, la_fprintf_call) \
+#define LA_DBGLOG_LOG(trace_level,trace_group,la_fprintf_call) \
 { if (la_dbglog_atlevel(trace_level,trace_group,\
    la_dbglogfn_get())) { la_fprintf_call; la_dbglog_close() ; } }
 
 /* DBGTR1 p.p 259 "C FOR FUN AND PROFIT" this covers them all,
  * as nowadays we do have __VA_OPT__ and __VA_ARGS__  */
 #define LA_DBGLOG_ADDTOLOG(fmt, ...)\
-{ LA_DBGLOG_LOG(STD_LOGGING_LEVEL,STD_LOGGING_GROUP, \
+{ LA_DBGLOG_LOG(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(), \
    fprintf(dbgfp,fmt __VA_OPT__(,) (__VA_ARGS__))); }
 
-#define LA_DBGLOG_HERE LA_DBGLOG_ADDTOLOG( "log in file %s at line %d\n",\
-    __FILE__, __LINE__)
+#define LA_DBGLOG_STR(str) LA_DBGLOG_ADDTOLOG( "%s\n", (str))
 
-#define LA_DBGLOG_TIME LA_DBGLOG_ADDTOLOG("%S", la_dbglog_time())
+#define LA_DBGLOG_HERE \
+{ if (la_dbglog_atlevel(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(),\
+   la_dbglogfn_get())) {\
+    fprintf(dbgfp,"log in file %s at line %d\n",(__FILE__), (__LINE__)); \
+    la_dbglog_close() ; } }
 
-#define LA_DBLOG_DISABLE( flag) la_dbglog_disable((flag))
+#define LA_DBGLOG_TIME LA_DBGLOG_ADDTOLOG("%s", la_dbglog_time())
 
+#define LA_DBGLOG_DISABLE la_dbglog_disable((true))
+
+#define LA_DBGLOG_ENABLE la_dbglog_disable((false))
+
+#define LA_DBGLOG_CLOSE { if (dbgfp != NULL ) { fclose(dbgfp); dbgfp = NULL ; } ; }
+
+#define LA_DBGLOG_SETLEVEL(level) la_dbglog_setlevel((level)) 
+#define LA_DBGLOG_ADDGROUP(group) la_dbglog_addgroup((group)) 
+#define LA_DBGLOG_STD_LEVEL(level) la_dbglog_set_stdlevel((level))
+#define LA_DBGLOG_STD_GROUP(group) la_dbglog_set_stdgroup((group))
+#define LA_DBGLOG_FN_SET(fname) la_dbglogfn_set((fname))
+
+#else
+/* maybe I should define the empty macros to ((void)0)
+ */
+#define LA_DBGLOG_LOG(trace_level,trace_group,la_fprintf_call) 
+
+#define LA_DBGLOG_ADDTOLOG(fmt, ...)
+
+#define LA_DBGLOG_STR(str) 
+
+#define LA_DBGLOG_HERE
+
+#define LA_DBGLOG_TIME 
+
+#define LA_DBGLOG_DISABLE
+
+#define LA_DBGLOG_ENABLE
+
+#define LA_DBGLOG_CLOSE
+
+#define LA_DBGLOG_SETLEVEL(level 
+#define LA_DBGLOG_ADDGROUP(group)
+#define LA_DBGLOG_STD_LEVEL(level)
+#define LA_DBGLOG_STD_GROUP(group) 
+#define LA_DBGLOG_FN_SET(fname)  
+#endif
 #endif
