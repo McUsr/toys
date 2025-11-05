@@ -57,7 +57,7 @@ SOFTWARE.
  * as nowadays we do have __VA_OPT__ and __VA_ARGS__  */
 #define LA_DBGLOG_ADDTOLOG(fmt, ...)\
 { LA_DBGLOG_LOG(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(), \
-   fprintf(dbgfp,fmt __VA_OPT__(,) (__VA_ARGS__))); }
+   fprintf(dbgfp,fmt __VA_OPT__(,) __VA_ARGS__)); }
 
 #define LA_DBGLOG_STR(str) LA_DBGLOG_ADDTOLOG( "%s\n", (str))
 
@@ -80,8 +80,10 @@ SOFTWARE.
 #define LA_DBGLOG_SETLEVEL(level) la_dbglog_setlevel((level)) 
 #define LA_DBGLOG_ADDGROUP(group) la_dbglog_addgroup((group)) 
 #define LA_DBGLOG_DELGROUP(group) la_dbglog_delgroup((group)) 
-#define LA_DBGLOG_STD_LEVEL(level) la_dbglog_set_stdlevel((level))
-#define LA_DBGLOG_STD_GROUP(group) la_dbglog_set_stdgroup((group))
+#define LA_DBGLOG_SETSTD_LEVEL(level) la_dbglog_set_stdlevel((level))
+#define LA_DBGLOG_GETSTD_LEVEL la_dbglog_get_stdlevel()
+#define LA_DBGLOG_SETSTD_GROUP(group) la_dbglog_set_stdgroup((group))
+#define LA_DBGLOG_GETSTD_GROUP la_dbglog_get_stdgroup()
 #define LA_DBGLOG_FN_SET(fname) la_dbglogfn_set((fname))
 
 #else
@@ -106,8 +108,10 @@ SOFTWARE.
 #define LA_DBGLOG_SETLEVEL(level) ((void)0)
 #define LA_DBGLOG_ADDGROUP(group) ((void)0)
 #define LA_DBGLOG_DELGROUP(group) ((void)0)
-#define LA_DBGLOG_STD_LEVEL(level) ((void)0)
+#define LA_DBGLOG_STD_SETLEVEL(level) ((void)0)
+#define LA_DBGLOG_GETSTD_LEVEL ((void)0) 
 #define LA_DBGLOG_STD_GROUP(group) ((void)0)
+#define LA_DBGLOG_GETSTD_GROUP     ((void)0)
 #define LA_DBGLOG_FN_SET(fname)  ((void)0)
 #endif
 
