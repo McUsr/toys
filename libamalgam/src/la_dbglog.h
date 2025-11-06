@@ -73,21 +73,30 @@ SOFTWARE.
 
 #define LA_DBGLOG_ENABLE la_dbglog_disable((false))
 
+#define LA_DBGLOG_ISENABLED la_dbglog_isenabled()
+
 #define LA_DBGLOG_OPEN_WRITE la_dbglog_cfg_open_write()
 
 #define LA_DBGLOG_CLOSE { if (dbgfp != NULL ) { fclose(dbgfp); dbgfp = NULL ; } ; }
 
 #define LA_DBGLOG_SETLEVEL(level) la_dbglog_setlevel((level)) 
+
 #define LA_DBGLOG_GETLEVEL la_dbglog_getlevel() 
 
 #define LA_DBGLOG_ADDGROUP(group) la_dbglog_addgroup((group)) 
+
 #define LA_DBGLOG_DELGROUP(group) la_dbglog_delgroup((group)) 
+
 #define LA_DBGLOG_GETGROUP la_dbglog_getgroup() 
 
 #define LA_DBGLOG_SETSTD_LEVEL(level) la_dbglog_set_stdlevel((level))
+
 #define LA_DBGLOG_GETSTD_LEVEL la_dbglog_get_stdlevel()
+
 #define LA_DBGLOG_SETSTD_GROUP(group) la_dbglog_set_stdgroup((group))
+
 #define LA_DBGLOG_GETSTD_GROUP la_dbglog_get_stdgroup()
+
 #define LA_DBGLOG_FN_SET(fname) la_dbglogfn_set((fname))
 
 #else
@@ -107,18 +116,30 @@ SOFTWARE.
 
 #define LA_DBGLOG_ENABLE ((void)0)
 
+#define LA_DBGLOG_ISENABLED ((void)0)
+
 #define LA_DBGLOG_CLOSE ((void)0)
 
 #define LA_DBGLOG_SETLEVEL(level) ((void)0)
+
 #define LA_DBGLOG_GETLEVEL ((void)0)
+
 #define LA_DBGLOG_ADDGROUP(group) ((void)0)
+
 #define LA_DBGLOG_DELGROUP(group) ((void)0)
+
 #define LA_DBGLOG_SETSTD_LEVEL(level) ((void)0) 
+
 #define LA_DBGLOG_GETSTD_LEVEL ((void)0) 
+
 #define LA_DBGLOG_SETSTD_GROUP(group) ((void)0)
+
 #define LA_DBGLOG_GETSTD_GROUP ((void)0)
+
 #define LA_DBGLOG_GETSTD_GROUP     ((void)0)
+
 #define LA_DBGLOG_FN_SET(fname)  ((void)0)
+
 #endif
 
 typedef enum {LA_FATAL=0,LA_LOGLVL1,LA_LOGLVL2,LA_LOGLVL3,
@@ -156,6 +177,7 @@ extern void la_dbglog_set_stdgroup(La_loggrp stdgroup );
 extern La_loggrp la_dbglog_get_stdgroup(void );
 
 extern void la_dbglog_disable(bool flag);
+extern bool la_dbglog_isenabled(void);
 extern char *la_dbglog_time(void);
 extern void la_dbglog_log_fatal(const char * fatal_emsg );
 #endif
