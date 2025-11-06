@@ -296,6 +296,11 @@ void la_dbglog_disable(bool flag)
    }
 }
 
+bool la_dbglog_isenabled(void)
+{
+    return (dbglog_disabled == false );
+}
+
 char *la_dbglog_time(void)
 {
     time_t tm;
