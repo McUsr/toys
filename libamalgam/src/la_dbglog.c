@@ -238,6 +238,11 @@ void la_dbglog_setlevel(La_loglvl newlevel)
     LOGGING_LEVEL = newlevel ;
 }
 
+La_loglvl la_dbglog_getlevel(void)
+{
+    return LOGGING_LEVEL ;
+}
+
 void la_dbglog_addgroup(La_loggrp newgroup )
 {
     LOGGING_GROUP |= newgroup ;
@@ -247,6 +252,13 @@ void la_dbglog_delgroup(La_loggrp oldgroup )
 {
     LOGGING_GROUP ^= oldgroup ;
 }
+
+La_loggrp la_dbglog_getgroup(void) 
+{
+    return LOGGING_GROUP  ;
+}
+
+
 
 /* Unlike the setters above, those below sets the
  * default values for the "shorthand" macros that emit 

@@ -59,7 +59,7 @@ SOFTWARE.
 { LA_DBGLOG_LOG(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(), \
    fprintf(dbgfp,fmt __VA_OPT__(,) __VA_ARGS__)); }
 
-#define LA_DBGLOG_STR(str) LA_DBGLOG_ADDTOLOG( "%s\n", (str))
+#define LA_DBGLOG_STR(str) LA_DBGLOG_ADDTOLOG( "%s\n", str)
 
 #define LA_DBGLOG_HERE \
 { if (la_dbglog_atlevel(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(),\
@@ -78,8 +78,12 @@ SOFTWARE.
 #define LA_DBGLOG_CLOSE { if (dbgfp != NULL ) { fclose(dbgfp); dbgfp = NULL ; } ; }
 
 #define LA_DBGLOG_SETLEVEL(level) la_dbglog_setlevel((level)) 
+#define LA_DBGLOG_GETLEVEL la_dbglog_getlevel() 
+
 #define LA_DBGLOG_ADDGROUP(group) la_dbglog_addgroup((group)) 
 #define LA_DBGLOG_DELGROUP(group) la_dbglog_delgroup((group)) 
+#define LA_DBGLOG_GETGROUP la_dbglog_getgroup() 
+
 #define LA_DBGLOG_SETSTD_LEVEL(level) la_dbglog_set_stdlevel((level))
 #define LA_DBGLOG_GETSTD_LEVEL la_dbglog_get_stdlevel()
 #define LA_DBGLOG_SETSTD_GROUP(group) la_dbglog_set_stdgroup((group))
@@ -106,11 +110,13 @@ SOFTWARE.
 #define LA_DBGLOG_CLOSE ((void)0)
 
 #define LA_DBGLOG_SETLEVEL(level) ((void)0)
+#define LA_DBGLOG_GETLEVEL ((void)0)
 #define LA_DBGLOG_ADDGROUP(group) ((void)0)
 #define LA_DBGLOG_DELGROUP(group) ((void)0)
-#define LA_DBGLOG_STD_SETLEVEL(level) ((void)0)
+#define LA_DBGLOG_SETSTD_LEVEL(level) ((void)0) 
 #define LA_DBGLOG_GETSTD_LEVEL ((void)0) 
-#define LA_DBGLOG_STD_GROUP(group) ((void)0)
+#define LA_DBGLOG_SETSTD_GROUP(group) ((void)0)
+#define LA_DBGLOG_GETSTD_GROUP ((void)0)
 #define LA_DBGLOG_GETSTD_GROUP     ((void)0)
 #define LA_DBGLOG_FN_SET(fname)  ((void)0)
 #endif
@@ -125,23 +131,30 @@ typedef enum {LA_EMERG=0,LA_LOGGRP1=0x01,LA_LOGGRP2=0x02,
              LA_LOGGRP12=0x800, LA_LOGGRP13=0x1000,LA_LOGGRP14=0x2000,
              LA_LOGGRP15=0x4000, LA_LOGGRP16=0x8000 } La_loggrp;
 
-
-
-
 extern FILE *dbgfp ;
+
 extern void la_dbglog_cfg_open_write(void);
-extern void la_dbglog_setlevel(La_loglvl newlevel);
 extern void (*la_dbglog_close)() ;
+
 extern void la_dbglogfn_set( char *fn);
 extern char *la_dbglog_get_fn();
+
 extern bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup,
         char *fname );
+
+extern void la_dbglog_setlevel(La_loglvl newlevel);
+extern La_loglvl la_dbglog_getlevel();
+
 extern void la_dbglog_addgroup(La_loggrp newgroup );
 extern void la_dbglog_delgroup(La_loggrp oldgroup );
+extern La_loggrp la_dbglog_getgroup(void);
+
 extern void la_dbglog_set_stdlevel(La_loglvl stdlevel);
 extern La_loglvl la_dbglog_get_stdlevel(void);
+
 extern void la_dbglog_set_stdgroup(La_loggrp stdgroup );
 extern La_loggrp la_dbglog_get_stdgroup(void );
+
 extern void la_dbglog_disable(bool flag);
 extern char *la_dbglog_time(void);
 extern void la_dbglog_log_fatal(const char * fatal_emsg );
