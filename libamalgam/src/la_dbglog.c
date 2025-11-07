@@ -27,6 +27,8 @@ SOFTWARE.
  * @brief Logs values and execution during development and release mode.
  * SPDX-License-Identifier: MIT
  */
+#include <unistd.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -48,7 +50,7 @@ FILE *dbgfp = NULL;
 bool (*la_dbgdologging)() ;/* not bad really , can be used later in a program */
 bool la_dbgdolog(); 
 bool la_dbgnologging(); 
-
+static bool keepopen = false;
 char *(*la_dbglog_open_mode)() ; /* Address of the "real" function. */
 static char *la_dbglog_open_append();
 static char *la_dbglog_open_write();
@@ -87,10 +89,14 @@ void la_dbglog_deinit(void)
 /* configures the log to keep log file open and not close it
  * after every log call.
  * It is much easier to save the current file if logging is disabled first.
+ *
+ * So, we think of this as a one way track really. we have no choice to 
+ * make the stream append -close agen after open_write.
  */
 void la_dbglog_cfg_open_write(void)
 {
     if (dbglog_disabled == true ) {
+        keepopen = true ;
         la_dbglog_open_mode = la_dbglog_open_write ;    /* open for writing  */
         la_dbglog_close = la_dbglog_close_noappend;     /* don't close it    */
     } else {
@@ -107,7 +113,9 @@ static void la_dbgopenlog( const char *fname)
        if ((fname == NULL) || fname[0] == '\0' ) 
            fname = dbglogfn ;
        dbgfp = fopen(fname,(*la_dbglog_open_mode)());
-       if (dbgfp == NULL ) {
+       if (keepopen && (dbgfp != NULL))
+		    fcntl(fileno(dbgfp), F_SETFD, FD_CLOEXEC);
+       else if (dbgfp == NULL ) {
            fprintf(stderr, "la_dgbopenlog  open error: file %s, mode %s\n",
                    fname,(*la_dbglog_open_mode)());
            exit(EXIT_FAILURE);
@@ -193,7 +201,7 @@ char *la_dbglog_open_write()
  */
 void la_dbglog_close_append()
 {
-    //GDB
+   keepopen = false ;
    fclose(dbgfp) ;
    dbgfp = NULL ;
 } 
@@ -300,14 +308,14 @@ bool la_dbglog_isenabled(void)
 {
     return (dbglog_disabled == false );
 }
+static char la_dbglog_timebuf[30];
 
 char *la_dbglog_time(void)
 {
     time_t tm;
-    char *p_tm;
-    time(&tm);
-    p_tm = ctime(&tm);
-    return p_tm ;
+    tm = time(NULL);
+	strftime(la_dbglog_timebuf, sizeof(la_dbglog_timebuf), "%Y-%b-%d %X\n", localtime(&tm));
+    return la_dbglog_timebuf;
 }
 #ifndef NOMAIN
 int main(void)
