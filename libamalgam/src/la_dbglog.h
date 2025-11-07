@@ -41,33 +41,55 @@ SOFTWARE.
 #   ifndef LA_DODGBLOG
 #       define LA_NODBGLOG 1
         /* Wipe out logging macros in release builds.  */
+#   else
+#       define LA_DBGLOG_DATUM 1
 #   endif
 #endif 
 
 
 #ifndef LA_NODBGLOG 
 
-
 /* DBGTR p.p 259 "C FOR FUN AND PROFIT" */
-#define LA_DBGLOG_LOG(trace_level,trace_group,la_fprintf_call) \
+#       define LA_DBGLOG_LOG(trace_level,trace_group,la_fprintf_call) \
 { if (la_dbglog_atlevel(trace_level,trace_group,\
    la_dbglog_get_fn())) { la_fprintf_call; la_dbglog_close() ; } }
 
+#ifndef LA_DBGLOG_DATUM
+
 /* DBGTR1 p.p 259 "C FOR FUN AND PROFIT" this covers them all,
  * as nowadays we do have __VA_OPT__ and __VA_ARGS__  */
-#define LA_DBGLOG_ADDTOLOG(fmt, ...)\
+#       define LA_DBGLOG_ADDTOLOG(fmt, ...)\
 { LA_DBGLOG_LOG(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(), \
    fprintf(dbgfp,fmt __VA_OPT__(,) __VA_ARGS__)); }
 
-#define LA_DBGLOG_STR(str) LA_DBGLOG_ADDTOLOG( "%s\n", str)
-
-#define LA_DBGLOG_HERE \
+#       define LA_DBGLOG_HERE \
 { if (la_dbglog_atlevel(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(),\
    la_dbglog_get_fn())) {\
     fprintf(dbgfp,"log in file %s at line %d\n",(__FILE__), (__LINE__)); \
     la_dbglog_close() ; } }
 
-#define LA_DBGLOG_TIME LA_DBGLOG_ADDTOLOG("%s", la_dbglog_time())
+#       define LA_DBGLOG_TIME LA_DBGLOG_ADDTOLOG("%s", la_dbglog_time())
+
+#   elif defined(LA_DBGLOG_DATUM) 
+
+
+#       define LA_DBGLOG_ADDTOLOG(fmt, ...)\
+{ LA_DBGLOG_LOG(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(), \
+   la_dbglog_logtimetoo(dbgfp,fmt __VA_OPT__(,) __VA_ARGS__)); }
+
+#       define LA_DBGLOG_HERE \
+{ if (la_dbglog_atlevel(la_dbglog_get_stdlevel(),la_dbglog_get_stdgroup(),\
+   la_dbglog_get_fn())) {\
+    la_dbglog_logtimetoo(dbgfp,"log in file %s at line %d\n",(__FILE__), (__LINE__)); \
+    la_dbglog_close() ; } }
+
+#       define LA_DBGLOG_TIME LA_DBGLOG_ADDTOLOG("%s", "")
+
+#   endif
+
+#define LA_DBGLOG_STR(str) LA_DBGLOG_ADDTOLOG( "%s", str)
+
+
 
 #define LA_DBGLOG_DISABLE la_dbglog_disable((true))
 
@@ -117,6 +139,8 @@ SOFTWARE.
 #define LA_DBGLOG_ENABLE ((void)0)
 
 #define LA_DBGLOG_ISENABLED ((void)0)
+
+#define LA_DBGLOG_OPEN_WRITE ((void)0)
 
 #define LA_DBGLOG_CLOSE ((void)0)
 
@@ -180,4 +204,5 @@ extern void la_dbglog_disable(bool flag);
 extern bool la_dbglog_isenabled(void);
 extern char *la_dbglog_time(void);
 extern void la_dbglog_log_fatal(const char * fatal_emsg );
+extern void la_dbglog_logtimetoo(FILE *restrict stream, const char *format, ...);
 #endif

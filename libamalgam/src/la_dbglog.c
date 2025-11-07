@@ -33,6 +33,7 @@ SOFTWARE.
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdarg.h>
 #include "la_dbglog.h"
 
 static unsigned int LOGGING_LEVEL = LA_FATAL;
@@ -317,11 +318,18 @@ char *la_dbglog_time(void)
 	strftime(la_dbglog_timebuf, sizeof(la_dbglog_timebuf), "%Y-%b-%d %X\n", localtime(&tm));
     return la_dbglog_timebuf;
 }
-#ifndef NOMAIN
-int main(void)
+
+void la_dbglog_logtimetoo(FILE *restrict stream, const char *format, ...)
 {
-    la_dbgopenlog(NULL);
-    printf("that's all!\n") ;
-    return 0;
+	va_list ap;
+	char timebuf[30];
+	time_t tm;
+
+    va_start(ap, format);
+    tm = time(NULL);
+    strftime(timebuf, sizeof(timebuf), "%Y-%b-%d %X", localtime(&tm));
+    fprintf(stream, "%s: ", timebuf);
+    vfprintf(stream, format, ap);
+    /* fputc('\n', stream); */
+    va_end(ap);
 }
-#endif
