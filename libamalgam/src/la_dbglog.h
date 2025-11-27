@@ -39,6 +39,7 @@ SOFTWARE.
  */
 #ifdef LAREL
 #   ifndef LA_DODGBLOG
+/*  TODO: rename to: LA_LOG_REL_DOLOG */
 #       define LA_NODBGLOG 1
         /* Wipe out logging macros in release builds.  */
 #   else
@@ -179,12 +180,12 @@ typedef enum {LA_EMERG=0,LA_LOGGRP1=0x01,LA_LOGGRP2=0x02,
 extern FILE *dbgfp ;
 
 extern void la_dbglog_cfg_open_write(void);
-extern void (*la_dbglog_close)() ;
+extern void (*la_log_close)() ;
 
 extern void la_dbglogfn_set( char *fn);
 extern char *la_dbglog_get_fn();
 
-extern bool la_dbglog_atlevel(La_loglvl level, La_loggrp loggroup,
+extern bool la_log_onlytofile_atlevel(La_loglvl level, La_loggrp loggroup,
         char *fname );
 
 extern void la_dbglog_setlevel(La_loglvl newlevel);
